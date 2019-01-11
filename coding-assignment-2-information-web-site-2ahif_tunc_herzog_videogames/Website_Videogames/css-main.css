@@ -1,0 +1,253 @@
+body {
+  background: #222233;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 200;
+  line-height: 1.5;
+  font-size: 20px;
+  margin:0 auto;
+  width:960px;
+  color: #AACCFF;
+  text-align: center;
+}
+
+a {
+    color: #AACCFF;
+    text-decoration: none;
+}
+
+.link {
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: rgb(59, 105, 173);
+  text-decoration: underline;
+}
+
+.emph {
+  font-weight: bold;
+}
+
+.publisher{
+  width: 200px;
+  height: 50px;
+}
+
+.headset {
+  float: left;
+}
+
+.sensorama {
+  float: right;
+  padding-left: 2.5%;
+}
+
+.steam {
+  float: left;
+  padding-right: 2.5%;
+  width: 150px;
+  height: 150px;
+}
+
+.origin {
+  float: right;
+  width: 150px;
+  height: 150px;
+}
+
+.battle {
+  float: left;
+  padding-right: 2.5%;
+  width: 150px;
+  height: 150px;
+}
+
+.uplay {
+  float: right;
+  padding-left: 2.5%;
+  width: 150px;
+  height: 150px;
+  padding-top: 50px;
+  margin-bottom: 80px;
+}
+
+.bg-image {
+    background-image: url('mashup.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    line-height: 100px;
+    overflow: auto;
+    min-height: 700px;
+    min-width: 990px;
+}
+
+.txt {
+    text-align: center;
+    padding-top: 200px;
+    text-shadow: 5px 5px white;
+    -webkit-animation:colorchange 20s infinite alternate;
+  }
+
+    @-webkit-keyframes colorchange {
+      0% {
+
+        color: blue;
+      }
+
+      10% {
+
+        color: #8e44ad;
+      }
+
+      20% {
+
+        color: #1abc9c;
+      }
+
+      30% {
+
+        color: #d35400;
+      }
+
+      40% {
+
+        color: blue;
+      }
+
+      50% {
+
+        color: #34495e;
+      }
+
+      60% {
+
+        color: blue;
+      }
+
+      70% {
+
+        color: #2980b9;
+      }
+      80% {
+
+        color: #f1c40f;
+      }
+
+      90% {
+
+        color: #2980b9;
+      }
+
+      100% {
+
+        color: pink;
+      }
+}
+
+.nav {
+    font-size: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bold;
+    float: left;
+    padding-right: 550px;
+    padding-left: 5%;
+}
+
+ul:not(.nav) {
+	background-color: #141420;
+  list-style-type: none;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  height: 60px;
+  width: 100%;
+	overflow: hidden;
+	position: fixed;
+  box-shadow: 0 0 25px 0 black;
+  display: flex;
+  align-items: center;
+}
+
+li a {
+  color: rgb(209, 227, 253);
+  float: right;
+  text-align: right;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+li a:hover:not(.nav) { background-color: #000;}
+
+h1 {
+  color: rgb(209, 227, 253);
+  font-size: 100px;
+  font-weight: bold;
+}
+
+h2 {
+  font-weight: bold;
+  color: rgb(209, 227, 253);
+  font-size: 50px;
+}
+
+h3 {
+  padding-top: 30px;
+  font-weight: bold;
+  color: rgb(209, 227, 253);
+  font-size: 30px;
+}
+
+h4 {
+  font-weight: bold;
+  color: rgb(209, 227, 253);
+  font-size: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    background-color: #141420;
+    color: white;
+}
+
+td:hover {background-color: #000;}
+
+td {
+  border-bottom: 1px solid black;
+	text-align: center;
+}
+
+td a {
+    text-decoration: none;
+}
+
+form > button {
+  width: 40%;
+  height: 100px;
+  position: absolute;
+  background-image: url(steam.png);
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  border-radius: 12px;
+  right: 30%;
+}
+
+button:hover {background-color: #000;}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+}
+
+p {
+	text-align: justify;
+}
