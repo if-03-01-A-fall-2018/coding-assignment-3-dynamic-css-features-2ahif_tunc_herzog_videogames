@@ -10,6 +10,18 @@ body {
   text-align: center;
 }
 
+.bg-image {
+    width:100%;
+    height:100%;
+    background-image:url('mashup.png');
+    background-size:cover;
+}
+.content {
+    width:100%;
+    top:100%;
+    height: 100px;
+}
+
 a {
     color: #AACCFF;
     text-decoration: none;
@@ -71,79 +83,19 @@ a {
   margin-bottom: 80px;
 }
 
-.bg-image {
-    background-image: url('mashup.png');
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;
-    line-height: 100px;
-    overflow: auto;
-    min-height: 700px;
-    min-width: 990px;
-}
-
 .txt {
     text-align: center;
     padding-top: 200px;
     text-shadow: 5px 5px white;
-    -webkit-animation:colorchange 20s infinite alternate;
+
   }
 
     @-webkit-keyframes colorchange {
-      0% {
-
-        color: blue;
-      }
-
-      10% {
-
-        color: #8e44ad;
-      }
-
-      20% {
-
-        color: #1abc9c;
-      }
-
-      30% {
-
-        color: #d35400;
-      }
-
-      40% {
-
-        color: blue;
-      }
-
-      50% {
-
-        color: #34495e;
-      }
-
-      60% {
-
-        color: blue;
-      }
-
-      70% {
-
-        color: #2980b9;
-      }
-      80% {
-
-        color: #f1c40f;
-      }
-
-      90% {
-
-        color: #2980b9;
-      }
-
-      100% {
-
-        color: pink;
-      }
+      0% { color: #2f4fce; }
+      25% { color: #8d47ff; }
+      50% { color: #3624ad }
+      75% { color: #4aa9e0; }
+      100% { color: #4b35f2; }
 }
 
 .nav {
@@ -172,6 +124,7 @@ ul:not(.nav) {
   align-items: center;
 }
 
+
 li a {
   color: rgb(209, 227, 253);
   float: right;
@@ -187,6 +140,7 @@ h1 {
   color: rgb(209, 227, 253);
   font-size: 100px;
   font-weight: bold;
+  -webkit-animation:colorchange 10s infinite alternate;
 }
 
 h2 {
