@@ -8,9 +8,17 @@ body {
   text-align: center;
 }
 
-article:not(.bg-image)
+article
+{
+  margin-top: 5%;
+  margin:0 auto;
+  width: 960px;
+}
+
+article#main
 {
   margin:0 auto;
+  margin-top: 500px;
   width: 960px;
   top:100%;
 }
@@ -18,9 +26,15 @@ article:not(.bg-image)
 .bg-image{
     width:100%;
     height:100%;
-    background-image:url('fullscreen_test.jpg');
+    background-image:url('assasin.jpg');
     background-size:cover;
     background-attachment: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
 }
 
 a {
@@ -84,27 +98,20 @@ a {
   margin-bottom: 80px;
 }
 
-.txt {
+.txt>h1 {
+    color: black;
     text-align: center;
-    padding-top: 200px;
     text-shadow: 5px 5px white;
-
+    margin-top: 25%;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
   }
-
-    @-webkit-keyframes colorchange {
-      0% { color: #2f4fce; }
-      25% { color: #8d47ff; }
-      50% { color: #3624ad }
-      75% { color: #4aa9e0; }
-      100% { color: #4b35f2; }
-}
 
 .nav {
     font-size: 40px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: bold;
     float: left;
-    padding-right: 550px;
+    padding-right: 500px;
     padding-left: 5%;
 }
 
