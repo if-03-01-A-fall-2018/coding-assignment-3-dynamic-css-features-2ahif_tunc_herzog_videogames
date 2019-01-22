@@ -18,7 +18,7 @@ article
 article#main
 {
   margin:0 auto;
-  margin-top: 500px;
+  margin-top: 15%;
   width: 960px;
   top:100%;
 }
@@ -136,7 +136,6 @@ ul:not(.nav) {
 li a {
   color: rgb(209, 227, 253);
   float: right;
-  text-align: right;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 20px;
@@ -148,7 +147,6 @@ h1 {
   color: rgb(209, 227, 253);
   font-size: 100px;
   font-weight: bold;
-  -webkit-animation:colorchange 10s infinite alternate;
 }
 
 h2 {
@@ -199,7 +197,7 @@ form > button {
   background-position: center;
   text-align: center;
   border-radius: 12px;
-  right: 30%;
+  right: 30%; 
 }
 
 button:hover {background-color: #000;}
@@ -212,4 +210,39 @@ hr {
 
 p {
 	text-align: justify;
+}
+
+.pacman div {
+  position: sticky;
+  bottom: 0;
+}
+
+.pacman div:nth-of-type(1) {
+  height: 50px;
+  width: 50px;
+  animation-name: pacman;
+  animation-duration: 5.1s;
+  animation-delay: -2.4s;
+  animation-iteration-count: infinite;
+}
+
+.pacman div:nth-of-type(2) {
+  height: 20px;
+  width: 20px;
+  animation-name: ghost;
+  animation-duration: 4.8s;
+  animation-delay: -2.7s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pacman {
+  0%   {left:75%;transform: rotateY(180deg);}
+  50%  {left:25%;}
+  100% {left:75%;}
+}
+
+@keyframes ghost {
+  0%   {left:75%;}
+  50%  {left:25%;}
+  100% {left:75%;}
 }
