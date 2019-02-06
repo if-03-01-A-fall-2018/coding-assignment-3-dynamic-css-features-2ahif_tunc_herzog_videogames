@@ -24,10 +24,10 @@ article#main
 }
 
 .bg-image{
-    width:100%;
-    height:100%;
-    background-image:url('assassin.jpg');
-    background-size:cover;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/assassin.jpg');
+    background-size: cover;
     background-attachment: fixed;
     position: absolute;
     top: 0;
@@ -191,7 +191,7 @@ form > button {
   width: 40%;
   height: 100px;
   position: absolute;
-  background-image: url(steam.png);
+  background-image: url(images/steam.png);
   background-size: cover;
   background-position: center;
   text-align: center;
