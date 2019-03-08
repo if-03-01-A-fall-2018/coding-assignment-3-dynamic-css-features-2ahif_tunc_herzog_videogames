@@ -187,7 +187,7 @@ td a {
     text-decoration: none;
 }
 
-form > button {
+form > button#steam {
   width: 40%;
   height: 100px;
   position: absolute;
@@ -199,7 +199,28 @@ form > button {
   right: 30%;
 }
 
-button:hover {background-color: #000;}
+button#steam:hover {background-color: #000;}
+
+a > button {
+  width: 10%;
+  height: 50px;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  border-radius: 12px;
+  right: 30%;
+}
+
+button.tetris {
+   background: url('images/tetris.png') no-repeat;
+}
+
+button.pacman {
+   background: url('images/pacman.jpg') no-repeat;
+}
+
+button:hover {background-color: gray;}
 
 hr {
     border: 0;
