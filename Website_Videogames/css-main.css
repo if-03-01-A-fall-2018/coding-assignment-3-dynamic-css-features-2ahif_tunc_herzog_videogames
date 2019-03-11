@@ -209,7 +209,11 @@ a > button {
   background-position: center;
   text-align: center;
   border-radius: 12px;
+  font-size: 25px;
+  font-weight: bold;
   right: 30%;
+  color: black;
+  text-shadow: 2px 2px lightgray;
 }
 
 button.tetris {
@@ -218,6 +222,11 @@ button.tetris {
 
 button.pacman {
    background: url('images/pacman.jpg') no-repeat;
+}
+
+section#pacman {
+  padding-top: 100px;
+
 }
 
 button:hover {background-color: gray;}
