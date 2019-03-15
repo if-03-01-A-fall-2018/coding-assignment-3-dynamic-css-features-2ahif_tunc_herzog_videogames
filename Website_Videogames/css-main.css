@@ -203,7 +203,8 @@ button#steam:hover {background-color: #000;}
 
 a > button {
   width: 10%;
-  height: 50px;
+  height: 400px;
+  width: 300px;
   position: absolute;
   background-size: cover;
   background-position: center;
@@ -211,7 +212,6 @@ a > button {
   border-radius: 12px;
   font-size: 25px;
   font-weight: bold;
-  right: 30%;
   color: black;
   text-shadow: 2px 2px lightgray;
 }
@@ -225,7 +225,7 @@ button.pacman {
 }
 
 section#pacman {
-  padding-top: 100px;
+  padding-top: 500px;
 
 }
 
