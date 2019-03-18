@@ -8,6 +8,9 @@ body {
   text-align: center;
 }
 
+
+
+
 article
 {
   margin-top: 5%;
@@ -114,6 +117,18 @@ a {
     padding-left: 5%;
 }
 
+
+ol.games {
+  list-style-type: none;
+  width: 200px;
+}
+
+ol.games li a {
+  background-color: #141420;
+  color: lightblue;
+  text-decoration: none;
+}
+
 ul:not(.nav) {
 	background-color: #141420;
   list-style-type: none;
@@ -131,8 +146,7 @@ ul:not(.nav) {
   align-items: center;
 }
 
-
-li a {
+li a:not(.games){
   color: rgb(209, 227, 253);
   float: right;
   padding: 14px 16px;
