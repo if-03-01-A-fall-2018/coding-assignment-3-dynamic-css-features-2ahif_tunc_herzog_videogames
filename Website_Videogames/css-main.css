@@ -8,9 +8,6 @@ body {
   text-align: center;
 }
 
-
-
-
 article
 {
   margin-top: 5%;
@@ -115,18 +112,6 @@ a {
     font-weight: bold;
     float: left;
     padding-left: 5%;
-}
-
-
-ol.games {
-  list-style-type: none;
-  width: 200px;
-}
-
-ol.games li a {
-  background-color: #141420;
-  color: lightblue;
-  text-decoration: none;
 }
 
 ul:not(.nav) {
@@ -290,4 +275,26 @@ p {
   0%   {left:75%;}
   50%  {left:25%;}
   100% {left:75%;}
+}
+
+.button{
+  border:none;
+  padding:8px 16px;
+  color:inherit;
+  background-color:inherit;
+  font-size: 20px;
+}
+
+.button:hover { background-color: #000;}
+
+.sidebar{
+  height:100%;
+  background-color: #141420;
+  position:fixed!important;
+}
+
+
+.bar-block .bar-item{
+  width:100%;
+  text-align:left;
 }
