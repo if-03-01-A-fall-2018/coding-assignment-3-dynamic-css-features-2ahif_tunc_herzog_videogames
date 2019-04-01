@@ -1,16 +1,3 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-
-<head>
-<meta charset="UTF-8">
-<title>Pong</title>
-</head>
-
-<body>
-
-<canvas>
-<script>
-// Global Variables
 var DIRECTION = {
 IDLE: 0,
 UP: 1,
@@ -368,9 +355,3 @@ return ((new Date()).getTime() - this.timer >= 1000);
 
 var Pong = Object.assign({}, Game);
 Pong.initialize();
-</script>
-</canvas>
-
-</body>
-
-</html>
