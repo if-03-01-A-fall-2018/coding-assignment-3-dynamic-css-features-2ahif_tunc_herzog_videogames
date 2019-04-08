@@ -249,7 +249,7 @@ p {
   height: 50px;
   width: 50px;
   animation-name: pacman;
-  animation-duration: 5.1s;
+  animation-duration: 5s;
   animation-delay: -2.4s;
   animation-iteration-count: infinite;
 }
