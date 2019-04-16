@@ -1,0 +1,25 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "DaTunc"
+    },
+    {
+      "name": "Natalie",
+      "id": 2
+    }
+  ],
+  "games": [
+    {
+      "id": 1
+    }
+  ],
+  "scores": [
+    {
+      "id": 1,
+      "gameId": 1,
+      "playerId": 1,
+      "points": 100
+    }
+  ]
+}

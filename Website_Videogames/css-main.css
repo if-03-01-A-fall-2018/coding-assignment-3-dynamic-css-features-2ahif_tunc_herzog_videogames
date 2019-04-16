@@ -131,8 +131,7 @@ ul:not(.nav) {
   align-items: center;
 }
 
-
-li a {
+li a:not(.games){
   color: rgb(209, 227, 253);
   float: right;
   padding: 14px 16px;
@@ -187,7 +186,7 @@ td a {
     text-decoration: none;
 }
 
-form > button {
+form > button#steam {
   width: 40%;
   height: 100px;
   position: absolute;
@@ -199,7 +198,37 @@ form > button {
   right: 30%;
 }
 
-button:hover {background-color: #000;}
+button#steam:hover {background-color: #000;}
+
+a > button {
+  width: 10%;
+  height: 400px;
+  width: 300px;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  text-align: center;
+  border-radius: 12px;
+  font-size: 25px;
+  font-weight: bold;
+  color: black;
+  text-shadow: 2px 2px lightgray;
+}
+
+button.tetris {
+   background: url('images/tetris.png') no-repeat;
+}
+
+button.pacman {
+   background: url('images/pacman.jpg') no-repeat;
+}
+
+section#pacman {
+  padding-top: 500px;
+
+}
+
+button:hover {background-color: gray;}
 
 hr {
     border: 0;
@@ -220,7 +249,7 @@ p {
   height: 50px;
   width: 50px;
   animation-name: pacman;
-  animation-duration: 5.1s;
+  animation-duration: 5s;
   animation-delay: -2.4s;
   animation-iteration-count: infinite;
 }
@@ -246,4 +275,32 @@ p {
   0%   {left:75%;}
   50%  {left:25%;}
   100% {left:75%;}
+}
+
+.button{
+  border:none;
+  padding:8px 16px;
+  color:inherit;
+  background-color:inherit;
+  font-size: 20px;
+}
+
+.button:hover { background-color: #000;}
+
+.sidebar{
+  height:100%;
+  background-color: #141420;
+  position:fixed!important;
+}
+
+.bar-block .bar-item{
+  width:100%;
+  text-align:left;
+}
+
+.scoreboard
+{
+   position:absolute;
+   top:50%;
+   left:50%;
 }
