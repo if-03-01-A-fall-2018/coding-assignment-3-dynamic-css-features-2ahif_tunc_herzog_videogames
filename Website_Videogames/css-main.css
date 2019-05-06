@@ -287,15 +287,19 @@ p {
 
 .button:hover { background-color: #000;}
 
-.sidebar{
+.sidebar {
   height:100%;
   background-color: #141420;
   position:fixed!important;
 }
 
-.bar-block .bar-item{
+.bar-block .bar-item {
   width:100%;
   text-align:left;
+}
+
+.bar-block {
+  padding-top: 100px;
 }
 
 .scoreboard
