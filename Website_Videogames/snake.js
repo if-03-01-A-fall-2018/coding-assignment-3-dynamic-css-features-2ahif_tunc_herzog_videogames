@@ -1,227 +1,109 @@
-var canvas;
-var con;
-
-var head;
-var apple;
-var ball;
-
-var dots;
-var apple_x;
-var apple_y;
-
-var leftDirection = false;
-var rightDirection = true;
-var upDirection = false;
-var downDirection = false;
-var inGame = true;
-
-const DOT_SIZE = 10;
-const ALL_DOTS = 900;
-const MAX_RAND = 29;
-const DELAY = 140;
-const C_HEIGHT = 300;
-const C_WIDTH = 300;
-
-const LEFT_KEY = 37;
-const RIGHT_KEY = 39;
-const UP_KEY = 38;
-const DOWN_KEY = 40;
-
-var x = new Array(ALL_DOTS);
-var y = new Array(ALL_DOTS);
-
+var lev = 100;
+var num = 30;
+var direction = 3;
+var handle;
+var score = 0;
+var pause = true;
+var canvas = document.getElementById('plank');
+var context = canvas.getContext('2d');
+var snakex = new Array();
+var snakey = new Array();
+var prize = new Array(-1, -1);
+function rand() {
+    return parseInt(Math.random() * num);
+}
+function chk(x, y) {
+    if (x < 0 || y < 0) return false;
+    if (x > num - 1 || y > num - 1) return false;
+    for (var i = 0; i != snakex.length - 1; i++) {
+        if (snakex[i] == x && snakey[i] == y) { return false; }
+    };
+    return true;
+}
+function drawScore(text) {
+    context.clearRect(0, 0, 300, 25);
+    context.fillText("Score:" + text, 5, 5);
+}
+function makeprize() {
+    var flag = false;
+    var prizepre = new Array(2);
+    while (!flag) {
+        flag = true;
+        prizepre[0] = rand(); prizepre[1] = rand();
+        for (var i = 0; i != snakex.length; i++) {
+            if ((snakex[i] == prizepre[0]) && (snakey[i] == prizepre[1])) { flag = false; }
+        }
+    }
+    prize = prizepre;
+}
+function runscore(x, y) {
+    if (prize[0] == x && prize[1] == y) {
+        score = score + 1;
+        drawScore(score);
+        snakex[snakex.length] = prize[0];
+        snakey[snakey.length] = prize[1];
+        makeprize();
+        drawNode(prize[0], prize[1]);
+        return true;
+    }
+    return false;
+}
+function run() {
+    switch (direction) {
+        case 0: snakex[snakex.length] = snakex[snakex.length - 1]; snakey[snakey.length] = snakey[snakey.length - 1] - 1; break;
+        case 1: snakex[snakex.length] = snakex[snakex.length - 1]; snakey[snakey.length] = snakey[snakey.length - 1] + 1; break;
+        case 2: snakex[snakex.length] = snakex[snakex.length - 1] - 1; snakey[snakey.length] = snakey[snakey.length - 1]; break;
+        case 3: snakex[snakex.length] = snakex[snakex.length - 1] + 1; snakey[snakey.length] = snakey[snakey.length - 1]; break;
+    }
+    if (!runscore(snakex[snakex.length - 1], snakey[snakey.length - 1])) {
+        if (chk(snakex[snakex.length - 1], snakey[snakey.length - 1]) == false) {
+            clearInterval(handle);
+            drawScore('\tGame over');
+            return;
+        }
+        drawNode(snakex[snakex.length - 1], snakey[snakey.length - 1]);
+    }
+    clearNode(snakex[0], snakey[0]);
+    snakex.shift();
+    snakey.shift();
+}
+function drawNode(x, y) {
+    context.fillRect(x * 10 + 1, y * 10 + 31, 10, 10);
+}
+function clearNode(x, y) {
+    context.clearRect(x * 10 + 1, y * 10 + 31, 10, 10);
+}
 function init() {
-
-    canvas = document.getElementById('myCanvas');
-    con = canvas.getContext('2d');
-
-    loadImages();
-    createSnake();
-    locateApple();
-    setTimeout("gameCycle()", DELAY);
+    canvas.width = 510;
+    canvas.height = 600;
+    context.font = "normal 20px Airl";
+    context.textBaseline = "top";
+    context.fillText('snake', 0, 350);
+    drawScore('');
+    context.strokeRect(0, 30, 302, 302);
+    makeprize();
+    drawNode(prize[0], prize[1]);
+    snakex[0] = 0; snakex[1] = 1; snakex[2] = 2;
+    snakey[0] = 0; snakey[1] = 0; snakey[2] = 0;
+    drawNode(snakex[0], snakey[0]); drawNode(snakex[1], snakey[1]); drawNode(snakex[2], snakey[2]);
 }
-
-function loadImages() {
-
-    head = new Image();
-    head.src = 'head.png';
-
-    ball = new Image();
-    ball.src = 'dot.png';
-
-    apple = new Image();
-    apple.src = 'apple.png';
-}
-
-function createSnake() {
-
-    dots = 3;
-
-    for (var z = 0; z < dots; z++) {
-        x[z] = 50 - z * 10;
-        y[z] = 50;
+document.onkeydown = function (event) {
+    var e = event || window.event;
+    if (e && e.keyCode == 38) {
+        direction = 0;
     }
-}
-
-function checkApple() {
-
-    if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        dots++;
-        locateApple();
+    if (e && e.keyCode == 40) {
+        direction = 1;
+    }
+    if (e && e.keyCode == 37) {
+        direction = 2;
+    }
+    if (e && e.keyCode == 39) {
+        direction = 3;
+    }
+    if (e && e.keyCode == 80) {
+        if (pause) { pause = false; handle = setInterval(run, lev); }
+        else { pause = true; clearInterval(handle); }
     }
 }
-
-function doDrawing() {
-
-    con.clearRect(0, 0, C_WIDTH, C_HEIGHT);
-
-    if (inGame) {
-
-        con.drawImage(apple, apple_x, apple_y);
-
-        for (var z = 0; z < dots; z++) {
-
-            if (z == 0) {
-                con.drawImage(head, x[z], y[z]);
-            } else {
-                con.drawImage(ball, x[z], y[z]);
-            }
-        }
-    } else {
-
-        gameOver();
-    }
-}
-
-function gameOver() {
-
-    con.fillStyle = 'white';
-    con.textBaseline = 'middle';
-    con.textAlign = 'center';
-    con.font = 'normal bold 18px serif';
-
-    con.fillText('Game over', C_WIDTH / 2, C_HEIGHT / 2);
-}
-
-function checkApple() {
-
-    if ((x[0] == apple_x) && (y[0] == apple_y)) {
-
-        dots++;
-        locateApple();
-    }
-}
-
-function move() {
-
-    for (var z = dots; z > 0; z--) {
-
-        x[z] = x[(z - 1)];
-        y[z] = y[(z - 1)];
-    }
-
-    if (leftDirection) {
-
-        x[0] -= DOT_SIZE;
-    }
-
-    if (rightDirection) {
-
-        x[0] += DOT_SIZE;
-    }
-
-    if (upDirection) {
-
-        y[0] -= DOT_SIZE;
-    }
-
-    if (downDirection) {
-
-        y[0] += DOT_SIZE;
-    }
-}
-
-function checkCollision() {
-
-    for (var z = dots; z > 0; z--) {
-
-        if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-            inGame = false;
-        }
-    }
-
-    if (y[0] >= C_HEIGHT) {
-
-        inGame = false;
-    }
-
-    if (y[0] < 0) {
-
-        inGame = false;
-    }
-
-    if (x[0] >= C_WIDTH) {
-
-        inGame = false;
-    }
-
-    if (x[0] < 0) {
-
-        inGame = false;
-    }
-}
-
-function locateApple() {
-
-    var r = Math.floor(Math.random() * MAX_RAND);
-    apple_x = r * DOT_SIZE;
-
-    r = Math.floor(Math.random() * MAX_RAND);
-    apple_y = r * DOT_SIZE;
-}
-
-function gameCycle() {
-
-    if (inGame) {
-
-        checkApple();
-        checkCollision();
-        move();
-        doDrawing();
-        setTimeout("gameCycle()", DELAY);
-    }
-}
-
-onkeydown = function (e) {
-
-    var key = e.keyCode;
-
-    if ((key == LEFT_KEY) && (!rightDirection)) {
-
-        leftDirection = true;
-        upDirection = false;
-        downDirection = false;
-    }
-
-    if ((key == RIGHT_KEY) && (!leftDirection)) {
-
-        rightDirection = true;
-        upDirection = false;
-        downDirection = false;
-    }
-
-    if ((key == UP_KEY) && (!downDirection)) {
-
-        upDirection = true;
-        rightDirection = false;
-        leftDirection = false;
-    }
-
-    if ((key == DOWN_KEY) && (!upDirection)) {
-
-        downDirection = true;
-        rightDirection = false;
-        leftDirection = false;
-    }
-};    
+init();
