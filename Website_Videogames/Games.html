@@ -25,7 +25,8 @@
 	</article>
 
 	<div class="sidebar bar-block" style="width:130px">
-		<h5 style="font-size:25px">Games</h5>
+		<h5 style="font-size:25px"></h5>
+		<button class="bar-item button tablink" onclick="openGame(event, 'Games')" >Games</button>
 		<button class="bar-item button tablink" onclick="openGame(event, 'Tetris')">Tetris</button>
 		<button class="bar-item button tablink" onclick="openGame(event, 'Snake')">Snake</button>
 		<button class="bar-item button tablink" onclick="openGame(event, 'Pong')">Pong</button>
@@ -33,7 +34,7 @@
 
 	<div style="margin-left:130px">
 
-		<div class="scoreboard">
+	<div id="Games" class="tabcontent" style="display:none">
 			<table class="scoreboard">
 				<th>Tetris</th>
 				<th>Snake</th>
@@ -54,35 +55,37 @@
 					<td>player 3</td>
 				</tr>
 			</table>
-		</div>
+	</div>
 
-		<div id="Tetris" class="container game" style="display:none">
+		<div id="Tetris" class="tabcontent" style="display:none">
 			<h2>Tetris</h2>
 			<hr>
 			<p style="text-align: center"> You control the bricks falling down. Fit them in a row to get points. </p>
 			<p style="text-align: center"> Use the arrow buttons. </p>
 
-			<script type="text/javascript" src="tetris.js"></script>
+			<canvas id="canvas"></canvas>
+			<script src="tetris.js"></script>
 		</div>
 
-		<div id="Snake" class="container game" style="display:none">
+		<div id="Snake" class="tabcontent" style="display:none">
 			<h2>Pacman</h2>
 			<hr>
-			<p style="text-align: center"> You have to stear the snake.
-			</p>
+			<p style="text-align: center"> You have to stear the snake.</p>
 			<p style="text-align: center"> Don't touch a barrier. </p>
 
-			<script type="text/javascript" src="snake.js"></script>
+			<canvas id="canvas"></canvas>
+			<script src="snake.js"></script>
 		</div>
 
-		<div id="Pong" class="container game" style="display:none">
+		<div id="Pong" class="tabcontent" style="display:none">
 			<h2>Pong</h2>
 			<hr>
 			<p style="text-align: center"> You have to stear the left rectangle (ping) to win against the A.I. (pong). </p>
 			<p style="text-align: center"> Use the up/down arrows or w/s. Winner is who gets the most points by shooting the
 				ball into the enemy's field. </p>
 
-			<script type="text/javascript" src="pong.js"></script>
+				<canvas id="canvas"></canvas>
+			<script src="pong.js"></script>
 		</div>
 	</div>
 
@@ -106,8 +109,7 @@
 			document.getElementById(game).style.display = "block";
 			evt.currentTarget.className += " active";
 
-			var defaultOpen = document.getElementById('defaultOpen');
-			defaultOpen.getElementsByTagName('b')[0].innerHTML = defaultOpen.getAttribute('altTxt');
+			//document.getElementById("defaultOpen").click();
 		}
 	</script>
 

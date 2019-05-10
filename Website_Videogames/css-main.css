@@ -312,3 +312,11 @@ p {
 table.scoreboard{
   width: 1000px;
 }
+
+.tabcontent {
+  padding-top: 100px;
+}
+
+#Games {
+  font-weight: bolder;
+}
