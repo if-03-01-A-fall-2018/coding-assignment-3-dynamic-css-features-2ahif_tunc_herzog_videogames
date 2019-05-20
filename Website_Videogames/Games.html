@@ -93,10 +93,11 @@
 				<canvas id="canvas">
 					Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
 				</canvas>
-			</div>
+			
 
 			<script src="stats.js"></script>
 			<script type="text/javascript" src="tetris.js"></script>
+			</div>
 
 		</div>
 
@@ -124,29 +125,7 @@
 		</div>
 	</div>
 
-	<script>
-		// handles onclick
-		function openGame(evt, game) {
-			var i, tabcontent, tablinks;
-
-			tabcontent = document.getElementsByClassName("tabcontent");
-
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			}
-
-			tablinks = document.getElementsByClassName("tablinks");
-
-			for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].className = tablinks[i].className.replace(" active", "");
-			}
-
-			document.getElementById(game).style.display = "block";
-			evt.currentTarget.className += " active";
-		}
-
-		document.getElementById("defaultOpen").click();
-	</script>
+	<script type="text/javascript" src="onclick.js"></script>
 
 </body>
 
