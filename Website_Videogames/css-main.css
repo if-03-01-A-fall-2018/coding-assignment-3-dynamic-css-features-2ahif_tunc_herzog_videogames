@@ -320,3 +320,7 @@ table.scoreboard{
 #Games {
   font-weight: bolder;
 }
+
+canvas#game {
+  border: 1px solid white;
+}

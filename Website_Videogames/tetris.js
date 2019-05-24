@@ -147,11 +147,11 @@
 			handled = true;
 		  }
 		  if (handled)
-			ev.preventDefault(); // prevent arrow keys from scrolling the page (supported in IE9+ and all other browsers)
+			ev.preventDefault(); // prevent arrow keys from scrolling the page
 		}
 		//-------------------------------------------------------------------------
 		// GAME LOGIC
-		//-------------------------------------------------------------------------
+		//------------------------------------------------------------------------
 		function play() { hide('start'); reset();          playing = true;  }
 		function lose() { show('start'); setVisualScore(); playing = false; }
 		function setVisualScore(n)      { vscore = n || score; invalidateScore(); }
@@ -300,7 +300,7 @@
 		}
 		function drawNext() {
 		  if (invalid.next) {
-			var padding = (nu - next.type.size) / 2; // half-arsed attempt at centering next piece display
+			var padding = (nu - next.type.size) / 2;
 			uctx.save();
 			uctx.translate(0.5, 0.5);
 			uctx.clearRect(0, 0, nu*dx, nu*dy);

@@ -1,109 +1,124 @@
-var lev = 100;
-var num = 30;
-var direction = 3;
-var handle;
-var score = 0;
-var pause = true;
-var canvas = document.getElementById('plank');
+var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
-var snakex = new Array();
-var snakey = new Array();
-var prize = new Array(-1, -1);
-function rand() {
-    return parseInt(Math.random() * num);
+var grid = 16;
+var count = 0;
+  
+var snake = {
+  x: 160,
+  y: 160,
+  
+  // snake velocity. moves one grid length every frame in either the x or y direction
+  dx: grid,
+  dy: 0,
+  
+  // keep track of all grids the snake body occupies
+  cells: [],
+  
+  // length of the snake. grows when eating an apple
+  maxCells: 4
+};
+var apple = {
+  x: 320,
+  y: 320
+};
+// get random whole numbers in a specific range
+// @see https://stackoverflow.com/a/1527820/2124254
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
 }
-function chk(x, y) {
-    if (x < 0 || y < 0) return false;
-    if (x > num - 1 || y > num - 1) return false;
-    for (var i = 0; i != snakex.length - 1; i++) {
-        if (snakex[i] == x && snakey[i] == y) { return false; }
-    };
-    return true;
-}
-function drawScore(text) {
-    context.clearRect(0, 0, 300, 25);
-    context.fillText("Score:" + text, 5, 5);
-}
-function makeprize() {
-    var flag = false;
-    var prizepre = new Array(2);
-    while (!flag) {
-        flag = true;
-        prizepre[0] = rand(); prizepre[1] = rand();
-        for (var i = 0; i != snakex.length; i++) {
-            if ((snakex[i] == prizepre[0]) && (snakey[i] == prizepre[1])) { flag = false; }
-        }
+// game loop
+function loop() {
+  requestAnimationFrame(loop);
+  // slow game loop to 15 fps instead of 60 (60/15 = 4)
+  if (++count < 4) {
+    return;
+  }
+  count = 0;
+  context.clearRect(0,0,canvas.width,canvas.height);
+  // move snake by it's velocity
+  snake.x += snake.dx;
+  snake.y += snake.dy;
+  // wrap snake position horizontally on edge of screen
+  if (snake.x < 0) {
+    snake.x = canvas.width - grid;
+  }
+  else if (snake.x >= canvas.width) {
+    snake.x = 0;
+  }
+  
+  // wrap snake position vertically on edge of screen
+  if (snake.y < 0) {
+    snake.y = canvas.height - grid;
+  }
+  else if (snake.y >= canvas.height) {
+    snake.y = 0;
+  }
+  // keep track of where snake has been. front of the array is always the head
+  snake.cells.unshift({x: snake.x, y: snake.y});
+  // remove cells as we move away from them
+  if (snake.cells.length > snake.maxCells) {
+    snake.cells.pop();
+  }
+  // draw apple
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid-1, grid-1);
+  // draw snake one cell at a time
+  context.fillStyle = 'green';
+  snake.cells.forEach(function(cell, index) {
+    
+    // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
+    context.fillRect(cell.x, cell.y, grid-1, grid-1);  
+    // snake ate apple
+    if (cell.x === apple.x && cell.y === apple.y) {
+      snake.maxCells++;
+      // canvas is 400x400 which is 25x25 grids 
+      apple.x = getRandomInt(0, 25) * grid;
+      apple.y = getRandomInt(0, 25) * grid;
     }
-    prize = prizepre;
+    // check collision with all cells after this one (modified bubble sort)
+    for (var i = index + 1; i < snake.cells.length; i++) {
+      
+      // snake occupies same space as a body part. reset game
+      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+        snake.x = 160;
+        snake.y = 160;
+        snake.cells = [];
+        snake.maxCells = 4;
+        snake.dx = grid;
+        snake.dy = 0;
+        apple.x = getRandomInt(0, 25) * grid;
+        apple.y = getRandomInt(0, 25) * grid;
+      }
+    }
+  });
 }
-function runscore(x, y) {
-    if (prize[0] == x && prize[1] == y) {
-        score = score + 1;
-        drawScore(score);
-        snakex[snakex.length] = prize[0];
-        snakey[snakey.length] = prize[1];
-        makeprize();
-        drawNode(prize[0], prize[1]);
-        return true;
-    }
-    return false;
-}
-function run() {
-    switch (direction) {
-        case 0: snakex[snakex.length] = snakex[snakex.length - 1]; snakey[snakey.length] = snakey[snakey.length - 1] - 1; break;
-        case 1: snakex[snakex.length] = snakex[snakex.length - 1]; snakey[snakey.length] = snakey[snakey.length - 1] + 1; break;
-        case 2: snakex[snakex.length] = snakex[snakex.length - 1] - 1; snakey[snakey.length] = snakey[snakey.length - 1]; break;
-        case 3: snakex[snakex.length] = snakex[snakex.length - 1] + 1; snakey[snakey.length] = snakey[snakey.length - 1]; break;
-    }
-    if (!runscore(snakex[snakex.length - 1], snakey[snakey.length - 1])) {
-        if (chk(snakex[snakex.length - 1], snakey[snakey.length - 1]) == false) {
-            clearInterval(handle);
-            drawScore('\tGame over');
-            return;
-        }
-        drawNode(snakex[snakex.length - 1], snakey[snakey.length - 1]);
-    }
-    clearNode(snakex[0], snakey[0]);
-    snakex.shift();
-    snakey.shift();
-}
-function drawNode(x, y) {
-    context.fillRect(x * 10 + 1, y * 10 + 31, 10, 10);
-}
-function clearNode(x, y) {
-    context.clearRect(x * 10 + 1, y * 10 + 31, 10, 10);
-}
-function init() {
-    canvas.width = 510;
-    canvas.height = 600;
-    context.font = "normal 20px Airl";
-    context.textBaseline = "top";
-    context.fillText('snake', 0, 350);
-    drawScore('');
-    context.strokeRect(0, 30, 302, 302);
-    makeprize();
-    drawNode(prize[0], prize[1]);
-    snakex[0] = 0; snakex[1] = 1; snakex[2] = 2;
-    snakey[0] = 0; snakey[1] = 0; snakey[2] = 0;
-    drawNode(snakex[0], snakey[0]); drawNode(snakex[1], snakey[1]); drawNode(snakex[2], snakey[2]);
-}
-document.onkeydown = function (event) {
-    var e = event || window.event;
-    if (e && e.keyCode == 38) {
-        direction = 0;
-    }
-    if (e && e.keyCode == 40) {
-        direction = 1;
-    }
-    if (e && e.keyCode == 37) {
-        direction = 2;
-    }
-    if (e && e.keyCode == 39) {
-        direction = 3;
-    }
-    if (e && e.keyCode == 80) {
-        if (pause) { pause = false; handle = setInterval(run, lev); }
-        else { pause = true; clearInterval(handle); }
-    }
-}
-init();
+// listen to keyboard events to move the snake
+document.addEventListener('keydown', function(e) {
+  // prevent snake from backtracking on itself by checking that it's 
+  // not already moving on the same axis (pressing left while moving
+  // left won't do anything, and pressing right while moving left
+  // shouldn't let you collide with your own body)
+  
+  // left arrow key
+  if (e.which === 37 && snake.dx === 0) {
+    snake.dx = -grid;
+    snake.dy = 0;
+  }
+  // up arrow key
+  else if (e.which === 38 && snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+  }
+  // right arrow key
+  else if (e.which === 39 && snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+  }
+  // down arrow key
+  else if (e.which === 40 && snake.dy === 0) {
+    snake.dy = grid;
+    snake.dx = 0;
+  }
+});
+// start the game
+requestAnimationFrame(loop);

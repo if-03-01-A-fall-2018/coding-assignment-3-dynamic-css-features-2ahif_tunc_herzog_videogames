@@ -1,5 +1,3 @@
-
-
 					// Global Variables
 					var DIRECTION = {
 						IDLE: 0,
@@ -44,7 +42,7 @@
 
 					var Game = {
 						initialize: function () {
-							this.canvas = document.querySelector('canvas');
+							this.canvas = document.querySelector('#pongcanvas');
 							this.context = this.canvas.getContext('2d');
 
 							this.canvas.width = 1300;
@@ -327,27 +325,27 @@
 								if (key.keyCode === 38 || key.keyCode === 87) Pong.player.move = DIRECTION.UP;
 
 								// Handle down arrow and s key events
-								if (key.keyCode === 40 || key.keyCode === 83) Pong.player.move = DIRECTION.DOWN;
-							});
+					if (key.keyCode === 40 || key.keyCode === 83) Pong.player.move = DIRECTION.DOWN;
+				});
 
-							// Stop the player from moving when there are no keys being pressed.
-							document.addEventListener('keyup', function (key) { Pong.player.move = DIRECTION.IDLE; });
-						},
+				// Stop the player from moving when there are no keys being pressed.
+				document.addEventListener('keyup', function (key) { Pong.player.move = DIRECTION.IDLE; });
+			},
 
-						// Reset the ball location, the player turns and set a delay before the next round begins.
-						_resetTurn: function (victor, loser) {
-							this.ball = Ball.new.call(this, this.ball.speed);
-							this.turn = loser;
-							this.timer = (new Date()).getTime();
+			// Reset the ball location, the player turns and set a delay before the next round begins.
+			_resetTurn: function (victor, loser) {
+			this.ball = Ball.new.call(this, this.ball.speed);
+			this.turn = loser;
+			this.timer = (new Date()).getTime();
 
-							victor.score++;
-						},
+			victor.score++;
+		},
 
-						// Wait for a delay to have passed after each turn.
-						_turnDelayIsOver: function () {
-							return ((new Date()).getTime() - this.timer >= 1000);
-						}
-					};
+		// Wait for a delay to have passed after each turn.
+		_turnDelayIsOver: function () {
+		return ((new Date()).getTime() - this.timer >= 1000);
+	}
+};
 
-					var Pong = Object.assign({}, Game);
-					Pong.initialize();
+var Pong = Object.assign({}, Game);
+Pong.initialize();

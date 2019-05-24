@@ -90,13 +90,10 @@
 					<p>score <span id="score">00000</span></p>
 					<p>rows <span id="rows">0</span></p>
 				</div>
-				<canvas id="canvas">
-					Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
-				</canvas>
-			
 
-			<script src="stats.js"></script>
-			<script type="text/javascript" src="tetris.js"></script>
+				<canvas id="canvas"></canvas>	
+				<script src="stats.js"></script>
+				<script type="text/javascript" src="tetris.js"></script>
 			</div>
 
 		</div>
@@ -104,23 +101,21 @@
 		<div id="Snake" class="tabcontent">
 			<h2>Snake</h2>
 			<hr>
-			<p style="text-align: center"> You have to stear the snake.</p>
+			<p style="text-align: center"> You have to stear the snake. </p>
 			<p style="text-align: center"> Don't touch a barrier. </p>
 
-			<canvas id="plank"></canvas>
-			<script src="snake.js"></script>
+			<canvas width="400" height="400" id="game"></canvas>
+			<script type="text/javascript" src="snake.js"></script>
 		</div>
 
 		<div id="Pong" class="tabcontent">
 			<h2>Pong</h2>
 			<hr>
-			<p style="text-align: center"> You have to stear the left rectangle (ping) to win against the A.I. (pong).
-			</p>
+			<p style="text-align: center"> You have to stear the left rectangle (ping) to win against the A.I. (pong).</p>
 			<p style="text-align: center"> Use the up/down arrows or w/s. Winner is who gets the most points by shooting
 				the ball into the enemy's field. </p>
 
-			<canvas id="canvas"></canvas>
-
+			<canvas id="pongcanvas"></canvas>
 			<script type="text/javascript" src="pong.js"></script>
 		</div>
 	</div>
