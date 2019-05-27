@@ -2,6 +2,7 @@ var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 var grid = 16;
 var count = 0;
+var score = 0;
   
 var snake = {
   x: 160,
@@ -14,18 +15,26 @@ var snake = {
   // keep track of all grids the snake body occupies
   cells: [],
   
-  // length of the snake. grows when eating an apple
+  // length of the snake. grows when eating a red block
   maxCells: 4
 };
 var apple = {
   x: 320,
   y: 320
 };
+
+var score = {
+  x: 50,
+  y: 50,
+
+  temp: 0,
+  text: "SCORE: 0"
+};
 // get random whole numbers in a specific range
-// @see https://stackoverflow.com/a/1527820/2124254
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
 // game loop
 function loop() {
   requestAnimationFrame(loop);
@@ -59,18 +68,26 @@ function loop() {
   if (snake.cells.length > snake.maxCells) {
     snake.cells.pop();
   }
-  // draw apple
+  //draw scoer
+  context.font = "30px Arial";
+  context.fillStyle = 'white';
+  context.fillText(score.text, score.x, score.y);
+  // draw red block
   context.fillStyle = 'red';
   context.fillRect(apple.x, apple.y, grid-1, grid-1);
   // draw snake one cell at a time
   context.fillStyle = 'green';
-  snake.cells.forEach(function(cell, index) {
-    
+  snake.cells.forEach(function(cell, index)
+  {
     // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
     context.fillRect(cell.x, cell.y, grid-1, grid-1);  
-    // snake ate apple
+    // snake ate red block
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
+      score.temp++;
+      
+      score.text = "SCORE: " + score.temp;
+      
       // canvas is 400x400 which is 25x25 grids 
       apple.x = getRandomInt(0, 25) * grid;
       apple.y = getRandomInt(0, 25) * grid;
@@ -88,10 +105,12 @@ function loop() {
         snake.dy = 0;
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
+        score.text = "SCORE: 0";
       }
     }
   });
 }
+
 // listen to keyboard events to move the snake
 document.addEventListener('keydown', function(e) {
   // prevent snake from backtracking on itself by checking that it's 
