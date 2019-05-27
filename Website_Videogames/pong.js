@@ -326,10 +326,18 @@ var Game = {
 			}
 
 			// Handle up arrow and w key events
-			if (key.keyCode === 38 || key.keyCode === 87) Pong.player.move = DIRECTION.UP;
+			if (key.keyCode === 38 || key.keyCode === 87)
+			{
+				key.preventDefault();
+				Pong.player.move = DIRECTION.UP;
+			}
 
 			// Handle down arrow and s key events
-			if (key.keyCode === 40 || key.keyCode === 83) Pong.player.move = DIRECTION.DOWN;
+			if (key.keyCode === 40 || key.keyCode === 83)
+			{
+				key.preventDefault();
+				Pong.player.move = DIRECTION.DOWN;
+			} 
 		});
 
 		// Stop the player from moving when there are no keys being pressed.

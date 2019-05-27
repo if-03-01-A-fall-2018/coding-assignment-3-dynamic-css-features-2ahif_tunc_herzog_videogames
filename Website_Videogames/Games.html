@@ -57,7 +57,7 @@
 			</table>
 		</div>
 
-		
+
 		<div id="Tetris" class="tabcontent">
 			<h2>Tetris</h2>
 			<hr>
@@ -73,9 +73,9 @@
 		<div id="Snake" class="tabcontent">
 			<h2>Snake</h2>
 			<hr>
-			<p style="text-align: center"> Use the arrow keys to move a "snake" around the board. 
-										   The snake "eats" the red blocks and thereby grows larger. 
-										   The game ends when the snake moves into itself. </p>
+			<p style="text-align: center"> Use the arrow keys to move a "snake" around the board.
+				The snake "eats" the red blocks and thereby grows larger.
+				The game ends when the snake moves into itself. </p>
 			<p style="text-align: center"> The goal is to make the snake as large as possible before that happens. </p>
 
 			<canvas width="400" height="400" id="game"></canvas>
@@ -86,16 +86,27 @@
 		<div id="Pong" class="tabcontent">
 			<h2>Pong</h2>
 			<hr>
-			<p style="text-align: center"> You have to stear the left rectangle (ping) to win against the A.I. (pong).</p>
+			<p style="text-align: center"> You have to stear the left rectangle (ping) to win against the A.I. (pong).
+			</p>
 			<p style="text-align: center"> Use the up/down arrows or w/s. Winner is who gets the most points by shooting
-				the ball into the enemy's field. </p>		
+				the ball into the enemy's field. </p>
 
-			<button onclick="playstyleChooser(1)">PvP</button>	
-			<button onclick="playstyleChooser(0)">A.I.</button>	
+			<button onclick="playstyleChooser(1)" id="mode">PvP</button>
+			<button onclick="playstyleChooser(0)" id="mode">A.I.</button>
 
-			<canvas id="pongcanvas"></canvas>
+			<script type="text/javascript" src="playstyleChooser.js"></script>
 
-			<script type="text/javascript" src="playstyleChooser.js"></script>	
+			<div style="display:none;" id="AI">
+				<p style="text-align: center"> You are now playing against an A.I.! </p>
+				<canvas id="pongcanvas"></canvas>
+				<script type="text/javascript" src="pong.js"></script>
+			</div>
+
+			<div style="display:none;" id="PVP">
+				<p style="text-align: center"> You are now playing in PvP (competitive) mode! </p>
+				<canvas id="pvpcanvas"></canvas>
+				<script type="text/javascript" src="pongTESTING_PVP.js"></script>
+			</div>
 		</div>
 	</div>
 

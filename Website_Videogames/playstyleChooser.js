@@ -1,10 +1,15 @@
-function playstyleChooser(style) {
-    if(style == 1)
+function playstyleChooser(mode) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript'; 
+
+    if(mode == 1)
     {
-          document.getElementById(style).innerHTML = pongTESTING_PVP.js;
+        document.getElementById('AI').style.display = "none";
+        document.getElementById('PVP').style.display = "block";
     }
-    else
+    else if(mode == 0)
     {
-        document.getElementById(style).innerHTML = pong.js;
+        document.getElementById('PVP').style.display = "none";
+        document.getElementById('AI').style.display = "block";
     }
 }

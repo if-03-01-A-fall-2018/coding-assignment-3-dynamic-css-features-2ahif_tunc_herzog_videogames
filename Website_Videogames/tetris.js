@@ -214,11 +214,15 @@ function updateScore() {
 document.addEventListener('keydown', event => {
     if (event.keyCode === 37) {
         playerMove(-1);
+        event.preventDefault();
     } else if (event.keyCode === 39) {
+        event.preventDefault();
         playerMove(1);
     } else if (event.keyCode === 40) {
+        event.preventDefault();
         playerDrop();
     } else if (event.keyCode === 38) {
+        event.preventDefault();
         playerRotate(1);
     }
 });

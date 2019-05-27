@@ -25,8 +25,8 @@ var Ball = {
 	}
 };
 
-// The paddle object (The two lines that move up and down)
-var Paddle = {
+// The PvPPaddle object (The two lines that move up and down)
+var PvPPaddle = {
 	new: function(side) {
 		return {
 			width: 18,
@@ -42,7 +42,7 @@ var Paddle = {
 
 var Game = {
 	initialize: function() {
-		this.canvas = document.querySelector('#pongcanvas');
+		this.canvas = document.querySelector('#pvpcanvas');
 		this.context = this.canvas.getContext('2d');
 
 		this.canvas.width = 1300;
@@ -51,51 +51,50 @@ var Game = {
 		this.canvas.style.width = (this.canvas.width / 2) + 'px';
 		this.canvas.style.height = (this.canvas.height / 2) + 'px';
 
-		this.player = Paddle.new.call(this, 'left');
-		this.paddle = Paddle.new.call(this, 'right');
+		this.player1 = PvPPaddle.new.call(this, 'left');
+		this.player2 = PvPPaddle.new.call(this, 'right');
 		this.ball = Ball.new.call(this);
 
-		this.paddle.speed = 8;
 		this.running = this.over = false;
-		this.turn = this.paddle;
+		//this.turn = this.player2;
 		this.timer = this.round = 0;
 		this.color = '#222233';
 
-		Pong.menu();
-		Pong.listen();
+		PvPPong.menu();
+		PvPPong.listen();
 	},
 
 	endGameMenu: function(text) {
 		// Change the canvas font size and color
-		Pong.context.font = '50px Courier New';
-		Pong.context.fillStyle = '#222233';
+		PvPPong.context.font = '50px Courier New';
+		PvPPong.context.fillStyle = '#222233';
 
 		// Draw the rectangle behind the 'Press any key to begin' text.
-		Pong.context.fillRect(
-			Pong.canvas.width / 2 - 350,
-			Pong.canvas.height / 2 - 48,
+		PvPPong.context.fillRect(
+			PvPPong.canvas.width / 2 - 350,
+			PvPPong.canvas.height / 2 - 48,
 			700,
 			100
 		);
 
 		// Change the canvas color;
-		Pong.context.fillStyle = '#ffffff';
+		PvPPong.context.fillStyle = '#ffffff';
 
 		// Draw the end game menu text ('Game Over' and 'Winner')
-		Pong.context.fillText(text,
-			Pong.canvas.width / 2,
-			Pong.canvas.height / 2 + 15
+		PvPPong.context.fillText(text,
+			PvPPong.canvas.width / 2,
+			PvPPong.canvas.height / 2 + 15
 		);
 
 		setTimeout(function() {
-			Pong = Object.assign({}, Game);
-			Pong.initialize();
+			PvPPong = Object.assign({}, Game);
+			PvPPong.initialize();
 		}, 3000);
 	},
 
 	menu: function() {
-		// Draw all the Pong objects in their current state
-		Pong.draw();
+		// Draw all the PvPPong objects in their current state
+		PvPPong.draw();
 
 		// Change the canvas font size and color
 		this.context.font = '50px Courier New';
@@ -119,94 +118,88 @@ var Game = {
 		);
 	},
 
-	// Update all objects (move the player, paddle, ball, increment the score, etc.)
+	// Update all objects (move the player1, player2, ball, increment the score, etc.)
 	update: function() {
 		if (!this.over) {
 			// If the ball collides with the bound limits - correct the x and y coords.
-			if (this.ball.x <= 0) Pong._resetTurn.call(this, this.paddle, this.player);
-			if (this.ball.x >= this.canvas.width - this.ball.width) Pong._resetTurn.call(this, this.player, this.paddle);
+			if (this.ball.x <= 0) PvPPong._resetTurn.call(this, this.player2, this.player1);
+			if (this.ball.x >= this.canvas.width - this.ball.width) PvPPong._resetTurn.call(this, this.player1, this.player2);
 			if (this.ball.y <= 0) this.ball.moveY = DIRECTION.DOWN;
 			if (this.ball.y >= this.canvas.height - this.ball.height) this.ball.moveY = DIRECTION.UP;
 
-			// Move player if they player.move value was updated by a keyboard event
-			if (this.player.move === DIRECTION.UP) this.player.y -= this.player.speed;
-			else if (this.player.move === DIRECTION.DOWN) this.player.y += this.player.speed;
+			// Move player1 if the player1.move value was updated by a keyboard event
+			if (this.player1.move === DIRECTION.UP) this.player1.y -= this.player1.speed;
+			else if (this.player1.move === DIRECTION.DOWN) this.player1.y += this.player1.speed;
 
+			// If the player1 collides with the bound limits, update the x and y coords.
+			if (this.player1.y <= 0) this.player1.y = 0;
+			else if (this.player1.y >= (this.canvas.height - this.player1.height)) this.player1.y = (this.canvas.height - this.player1.height);
+
+			// Move player2 if the player2.move value was updated by a keyboard event
+			if (this.player2.move === DIRECTION.UP) this.player2.y -= this.player2.speed;
+			else if (this.player2.move === DIRECTION.DOWN) this.player2.y += this.player2.speed;
+
+			// If the player2 collides with the bound limits, update the x and y coords.
+			if (this.player2.y <= 0) this.player2.y = 0;
+			else if (this.player2.y >= (this.player2.height - this.player2.height)) this.player2.y = (this.canvas.height - this.player2.height);
+			
 			// On new serve (start of each turn) move the ball to the correct side
 			// and randomize the direction to add some challenge.
-			if (Pong._turnDelayIsOver.call(this) && this.turn) {
-				this.ball.moveX = this.turn === this.player ? DIRECTION.LEFT : DIRECTION.RIGHT;
+			if (PvPPong._turnDelayIsOver.call(this) && this.turn) {
+				this.ball.moveX = this.turn === this.player1 ? DIRECTION.LEFT : DIRECTION.RIGHT;
 				this.ball.moveY = [DIRECTION.UP, DIRECTION.DOWN][Math.round(Math.random())];
 				this.ball.y = Math.floor(Math.random() * this.canvas.height - 200) + 200;
 				this.turn = null;
 			}
-
-			// If the player collides with the bound limits, update the x and y coords.
-			if (this.player.y <= 0) this.player.y = 0;
-			else if (this.player.y >= (this.canvas.height - this.player.height)) this.player.y = (this.canvas.height - this.player.height);
 
 			// Move ball in intended direction based on moveY and moveX values
 			if (this.ball.moveY === DIRECTION.UP) this.ball.y -= (this.ball.speed / 1.5);
 			else if (this.ball.moveY === DIRECTION.DOWN) this.ball.y += (this.ball.speed / 1.5);
 			if (this.ball.moveX === DIRECTION.LEFT) this.ball.x -= this.ball.speed;
 			else if (this.ball.moveX === DIRECTION.RIGHT) this.ball.x += this.ball.speed;
-
-			// Handle paddle (AI) UP and DOWN movement
-			if (this.paddle.y > this.ball.y - (this.paddle.height / 2)) {
-				if (this.ball.moveX === DIRECTION.RIGHT) this.paddle.y -= this.paddle.speed / 1.5;
-				else this.paddle.y -= this.paddle.speed / 4;
-			}
-			if (this.paddle.y < this.ball.y - (this.paddle.height / 2)) {
-				if (this.ball.moveX === DIRECTION.RIGHT) this.paddle.y += this.paddle.speed / 1.5;
-				else this.paddle.y += this.paddle.speed / 4;
-			}
-
-			// Handle paddle (AI) wall collision
-			if (this.paddle.y >= this.canvas.height - this.paddle.height) this.paddle.y = this.canvas.height - this.paddle.height;
-			else if (this.paddle.y <= 0) this.paddle.y = 0;
-
-			// Handle Player-Ball collisions
-			if (this.ball.x - this.ball.width <= this.player.x && this.ball.x >= this.player.x - this.player.width) {
-				if (this.ball.y <= this.player.y + this.player.height && this.ball.y + this.ball.height >= this.player.y) {
-					this.ball.x = (this.player.x + this.ball.width);
+		
+			// Handle player1-Ball collisions
+			if (this.ball.x - this.ball.width <= this.player1.x && this.ball.x >= this.player1.x - this.player1.width) {
+				if (this.ball.y <= this.player1.y + this.player1.height && this.ball.y + this.ball.height >= this.player1.y) {
+					this.ball.x = (this.player1.x + this.ball.width);
 					this.ball.moveX = DIRECTION.RIGHT;
 				}
 			}
 
-			// Handle paddle-ball collision
-			if (this.ball.x - this.ball.width <= this.paddle.x && this.ball.x >= this.paddle.x - this.paddle.width) {
-				if (this.ball.y <= this.paddle.y + this.paddle.height && this.ball.y + this.ball.height >= this.paddle.y) {
-					this.ball.x = (this.paddle.x - this.ball.width);
+			// Handle player2-ball collision
+			if (this.ball.x - this.ball.width <= this.player2.x && this.ball.x >= this.player2.x - this.player2.width) {
+				if (this.ball.y <= this.player2.y + this.player2.height && this.ball.y + this.ball.height >= this.player2.y) {
+					this.ball.x = (this.player2.x - this.ball.width);
 					this.ball.moveX = DIRECTION.LEFT;
 				}
 			}
 		}
 
 		// Handle the end of round transition
-		// Check to see if the player won the round.
-		if (this.player.score === rounds[this.round]) {
+		// Check to see if the player1 won the round.
+		if (this.player1.score === rounds[this.round]) {
 			// Check to see if there are any more rounds/levels left and display the victory screen if
 			// there are not.
 			if (!rounds[this.round + 1]) {
 				this.over = true;
 				setTimeout(function() {
-					Pong.endGameMenu('Winner!');
+					PvPPong.endGameMenu('player1 1 wins!');
 				}, 1000);
 			} else {
 				// If there is another round, reset all the values and increment the round number.
 				this.color = "#222233";
-				this.player.score = this.paddle.score = 0;
-				this.player.speed += 0.5;
-				this.paddle.speed += 1;
+				this.player1.score = this.player2.score = 0;
+				this.player1.speed += 0.5;
+				this.player2.speed += 0.5;
 				this.ball.speed += 1;
 				this.round += 1;
 			}
 		}
-		// Check to see if the paddle/AI has won the round.
-		else if (this.paddle.score === rounds[this.round]) {
+		// Check to see if the player2 has won the round.
+		else if (this.player2.score === rounds[this.round]) {
 			this.over = true;
 			setTimeout(function() {
-				Pong.endGameMenu('Game Over!');
+				PvPPong.endGameMenu('player1 2 wins!');
 			}, 1000);
 		}
 	},
@@ -232,27 +225,27 @@ var Game = {
 			this.canvas.height
 		);
 
-		// Set the fill style to white (For the paddles and the ball)
+		// Set the fill style to white (For the PvPPaddles and the ball)
 		this.context.fillStyle = '#ffffff';
 
-		// Draw the Player
+		// Draw the player1
 		this.context.fillRect(
-			this.player.x,
-			this.player.y,
-			this.player.width,
-			this.player.height
+			this.player1.x,
+			this.player1.y,
+			this.player1.width,
+			this.player1.height
 		);
 
-		// Draw the Paddle
+		// Draw the player2
 		this.context.fillRect(
-			this.paddle.x,
-			this.paddle.y,
-			this.paddle.width,
-			this.paddle.height
+			this.player2.x,
+			this.player2.y,
+			this.player2.width,
+			this.player2.height
 		);
 
 		// Draw the Ball
-		if (Pong._turnDelayIsOver.call(this)) {
+		if (PvPPong._turnDelayIsOver.call(this)) {
 			this.context.fillRect(
 				this.ball.x,
 				this.ball.y,
@@ -274,16 +267,16 @@ var Game = {
 		this.context.font = '100px Courier New';
 		this.context.textAlign = 'center';
 
-		// Draw the players score (left)
+		// Draw the player1's score (left)
 		this.context.fillText(
-			this.player.score.toString(),
+			this.player1.score.toString(),
 			(this.canvas.width / 2) - 300,
 			200
 		);
 
-		// Draw the paddles score (right)
+		// Draw the player2's score (right)
 		this.context.fillText(
-			this.paddle.score.toString(),
+			this.player2.score.toString(),
 			(this.canvas.width / 2) + 300,
 			200
 		);
@@ -293,7 +286,7 @@ var Game = {
 
 		// Draw the winning score (center)
 		this.context.fillText(
-			'Round ' + (Pong.round + 1),
+			'Round ' + (PvPPong.round + 1),
 			(this.canvas.width / 2),
 			35
 		);
@@ -303,42 +296,65 @@ var Game = {
 
 		// Draw the current round number
 		this.context.fillText(
-			rounds[Pong.round] ? rounds[Pong.round] : rounds[Pong.round - 1],
+			rounds[PvPPong.round] ? rounds[PvPPong.round] : rounds[PvPPong.round - 1],
 			(this.canvas.width / 2),
 			100
 		);
 	},
 
 	loop: function() {
-		Pong.update();
-		Pong.draw();
+		PvPPong.update();
+		PvPPong.draw();
 
 		// If the game is not over, draw the next frame.
-		if (!Pong.over) requestAnimationFrame(Pong.loop);
+		if (!PvPPong.over) requestAnimationFrame(PvPPong.loop);
 	},
 
 	listen: function() {
 		document.addEventListener('keydown', function(key) {
 			// Handle the 'Press any key to begin' function and start the game.
-			if (Pong.running === false) {
-				Pong.running = true;
-				window.requestAnimationFrame(Pong.loop);
+			if (PvPPong.running === false) {
+				PvPPong.running = true;
+				window.requestAnimationFrame(PvPPong.loop);
 			}
 
-			// Handle up arrow and w key events
-			if (key.keyCode === 38 || key.keyCode === 87) Pong.player.move = DIRECTION.UP;
+			// Handle w key events for player1
+			if (key.keyCode === 87)
+			{
+				key.preventDefault();
+				PvPPong.player1.move = DIRECTION.UP;
+			}
 
-			// Handle down arrow and s key events
-			if (key.keyCode === 40 || key.keyCode === 83) Pong.player.move = DIRECTION.DOWN;
+			// Handle s key events for player1
+			if (key.keyCode === 83)
+			{
+				key.preventDefault();
+				PvPPong.player1.move = DIRECTION.DOWN;
+			} 
+
+			// Handle up arrow key events for player2
+			if (key.keyCode === 38)
+			{
+				key.preventDefault();
+				PvPPong.player2.move = DIRECTION.UP;
+			}
+
+			// Handle down arrow key events for player2
+			if (key.keyCode === 40)
+			{
+				key.preventDefault();
+				PvPPong.player2.move = DIRECTION.DOWN;
+			} 
 		});
 
-		// Stop the player from moving when there are no keys being pressed.
+		// Stop the player1 and player2 from moving when there are no keys being pressed.
 		document.addEventListener('keyup', function(key) {
-			Pong.player.move = DIRECTION.IDLE;
+			PvPPong.player1.move = DIRECTION.IDLE;
+			PvPPong.player2.move = DIRECTION.IDLE;
 		});
 	},
 
-	// Reset the ball location, the player turns and set a delay before the next round begins.
+	// Reset the ball location, the turns and set a delay before the next round begins.
 	_resetTurn: function(victor, loser) {
 		this.ball = Ball.new.call(this, this.ball.speed);
 		this.turn = loser;
@@ -353,5 +369,5 @@ var Game = {
 	}
 };
 
-var Pong = Object.assign({}, Game);
-Pong.initialize();
+var PvPPong = Object.assign({}, Game);
+PvPPong.initialize();
