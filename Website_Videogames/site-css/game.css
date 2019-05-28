@@ -1,3 +1,7 @@
 .game-area {
-  /* margin-left:130px; */
+  margin-left:150px;
+}
+
+.game-area p {
+  text-align: center;
 }
