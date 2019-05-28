@@ -89,18 +89,18 @@
 				the ball into the enemy's field.
 			</p>
 
-			<button onclick="playstyleChooser(1)" id="mode">PvP</button>
-			<button onclick="playstyleChooser(0)" id="mode">A.I.</button>
+			<button onclick="playstyleChooser(1)" class="mode">PvP</button>
+			<button onclick="playstyleChooser(0)" class="mode">A.I.</button>
 
 			<script type="text/javascript" src="playstyleChooser.js"></script>
 
-			<div style="display:none;" id="AI">
+			<div id="AI">
 				<p> You are now playing against an A.I.! </p>
 				<canvas id="pongcanvas"></canvas>
 				<script type="text/javascript" src="pong.js"></script>
 			</div>
 
-			<div style="display:none;" id="PVP">
+			<div id="PVP">
 				<p> You are now playing in PvP (competitive) mode! </p>
 				<canvas id="pvpcanvas"></canvas>
 				<script type="text/javascript" src="pvpPong.js"></script>
