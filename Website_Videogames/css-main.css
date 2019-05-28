@@ -128,6 +128,19 @@ h2 {
   font-weight: bold;
   color: rgb(209, 227, 253);
   font-size: 50px;
+  position: relative;
+  text-align: center;
+}
+
+h2::after {
+  border: 0;
+  height: 1px;
+  top:100%;
+  position: absolute;
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+  left:0px;
+  content:" ";    
+  width:100%;
 }
 
 h3 {
@@ -207,12 +220,6 @@ section#pacman {
 
 button:hover {background-color: gray;}
 
-hr {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-}
-
 p {
 	text-align: justify;
 }
@@ -263,39 +270,3 @@ p {
 }
 
 .button:hover { background-color: #000;}
-
-button#mode {
-  background-color: #f1f1f1;
-  color: black;
-  font-size: 16px;
-  padding: 16px 30px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  text-align: center;
-}
-
-#mode:hover { background-color: rgb(94, 94, 94);}
-
-.scoreboard
-{
-   position:absolute;
-   top:50%;
-   left:20%;
-}
-
-table.scoreboard{
-  width: 1000px;
-}
-
-.tabcontent {
-  padding-top: 50px;
-}
-
-#high-scores {
-  font-weight: bolder;
-}
-
-canvas#game {
-  border: 1px solid white;
-}

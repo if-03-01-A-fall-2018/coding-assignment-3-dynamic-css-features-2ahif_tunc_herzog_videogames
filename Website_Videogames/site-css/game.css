@@ -5,3 +5,39 @@
 .game-area p {
   text-align: center;
 }
+
+button#mode {
+  background-color: #f1f1f1;
+  color: black;
+  font-size: 16px;
+  padding: 16px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#mode:hover { background-color: rgb(94, 94, 94);}
+
+.scoreboard
+{
+   position:absolute;
+   top:50%;
+   left:20%;
+}
+
+table.scoreboard{
+  width: 1000px;
+}
+
+.tabcontent {
+  padding-top: 50px;
+}
+
+#HighScores {
+  font-weight: bolder;
+}
+
+canvas#game {
+  border: 1px solid white;
+}

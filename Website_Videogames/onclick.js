@@ -1,5 +1,5 @@
 window.onload = function() {
-  document.querySelector("#defaultOpen").onclick = event => openGame(event, 'high-scores')
+  document.querySelector("#defaultOpen").onclick = event => openGame(event, 'HighScores')
   document.querySelector("#tetris-button").onclick = event => openGame(event, 'Tetris')
   document.querySelector("#snake-button").onclick = event => openGame(event, 'Snake')
   document.querySelector("#pong-button").onclick = event => openGame(event, 'Pong')
