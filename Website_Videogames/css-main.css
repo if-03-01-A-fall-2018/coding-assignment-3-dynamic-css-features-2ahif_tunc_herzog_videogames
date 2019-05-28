@@ -8,6 +8,10 @@ body {
   text-align: center;
 }
 
+nav {
+  padding-bottom: 20px;
+}
+
 article
 {
   margin-top: 5%;
