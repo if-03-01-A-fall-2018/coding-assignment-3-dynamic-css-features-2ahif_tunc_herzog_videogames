@@ -10,6 +10,12 @@ var DIRECTION = {
 var rounds = [5, 5, 3, 3, 2];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6'];
 
+var score = {
+	countOne: 0,
+	countTwo: 0,
+	text: "SCORE: "
+};
+
 // The Ball object (The cube that bounces back and forth)
 var pvpBall = {
 	new: function(incrementedSpeed) {
@@ -30,10 +36,9 @@ var pvpPaddle = {
 	new: function(side) {
 		return {
 			width: 18,
-			height: 70,
+			height: 85,
 			x: side === 'left' ? 150 : this.canvas.width - 150,
 			y: (this.canvas.height / 2) - 35,
-			score: 0,
 			move: DIRECTION.IDLE,
 			speed: 10
 		};
@@ -108,7 +113,7 @@ var Game = {
 			100
 		);
 
-		// Change the canvas color;
+		// Change the canvas color
 		this.pvpContext.fillStyle = '#ffffff';
 
 		// Draw the 'press any key to begin' text
@@ -122,8 +127,8 @@ var Game = {
 	update: function() {
 		if (!this.over) {
 			// If the pvpBall collides with the bound limits - correct the x and y coords.
-			if (this.pvpBall.x <= 0) PvPPong._resetTurn.call(this, this.player2, this.player1);
-			if (this.pvpBall.x >= this.canvas.width - this.pvpBall.width) PvPPong._resetTurn.call(this, this.player1, this.player2);
+			if (this.pvpBall.x <= 0) PvPPong._resetTurn.call(this, true);
+			if (this.pvpBall.x >= this.canvas.width - this.pvpBall.width) PvPPong._resetTurn.call(this, false);
 			if (this.pvpBall.y <= 0) this.pvpBall.moveY = DIRECTION.DOWN;
 			if (this.pvpBall.y >= this.canvas.height - this.pvpBall.height) this.pvpBall.moveY = DIRECTION.UP;
 
@@ -177,7 +182,7 @@ var Game = {
 
 		// Handle the end of round transition
 		// Check to see if the player1 won the round.
-		if (this.player1.score === rounds[this.round]) {
+		if (score.countOne === rounds[this.round]) {
 			// Check to see if there are any more rounds/levels left and display the victory screen if
 			// there are not.
 			if (!rounds[this.round + 1]) {
@@ -188,7 +193,7 @@ var Game = {
 			} else {
 				// If there is another round, reset all the values and increment the round number.
 				this.color = "#222233";
-				this.player1.score = this.player2.score = 0;
+				score.countOne = score.countTwo = 0;
 				this.player1.speed += 0.5;
 				this.player2.speed += 0.5;
 				this.pvpBall.speed += 1;
@@ -196,7 +201,7 @@ var Game = {
 			}
 		}
 		// Check to see if the player2 has won the round.
-		else if (this.player2.score === rounds[this.round]) {
+		else if (score.countTwo === rounds[this.round]) {
 			// Check to see if there are any more rounds/levels left and display the victory screen if
 			// there are not.
 			if (!rounds[this.round + 1]) {
@@ -207,15 +212,18 @@ var Game = {
 			} else {
 				// If there is another round, reset all the values and increment the round number.
 				this.color = "#222233";
-				this.player1.score = this.player2.score = 0;
+				score.countOne = score.countTwo = 0;
 				this.player1.speed += 0.5;
 				this.player2.speed += 0.5;
 				this.pvpBall.speed += 1;
 				this.round += 1;
 			}
 		}
-	},
 
+		Pong.updateScorePvP(1);
+		Pong.updateScorePvP(2);
+	},
+	
 	// Draw the objects to the canvas element
 	draw: function() {
 		// Clear the Canvas
@@ -269,8 +277,8 @@ var Game = {
 		// Draw the net (Line in the middle)
 		this.pvpContext.beginPath();
 		this.pvpContext.setLineDash([7, 15]);
-		this.pvpContext.moveTo((this.canvas.width / 2), this.canvas.height - 140);
-		this.pvpContext.lineTo((this.canvas.width / 2), 140);
+		this.pvpContext.moveTo((this.canvas.width / 2), 140);
+		this.pvpContext.lineTo((this.canvas.width / 2), this.canvas.height);
 		this.pvpContext.lineWidth = 10;
 		this.pvpContext.strokeStyle = '#ffffff';
 		this.pvpContext.stroke();
@@ -279,26 +287,12 @@ var Game = {
 		this.pvpContext.font = '100px Courier New';
 		this.pvpContext.textAlign = 'center';
 
-		// Draw the player1's score (left)
-		this.pvpContext.fillText(
-			this.player1.score.toString(),
-			(this.canvas.width / 2) - 300,
-			200
-		);
-
-		// Draw the player2's score (right)
-		this.pvpContext.fillText(
-			this.player2.score.toString(),
-			(this.canvas.width / 2) + 300,
-			200
-		);
-
 		// Change the font size for the center score text
 		this.pvpContext.font = '30px Courier New';
 
 		// Draw the winning score (center)
 		this.pvpContext.fillText(
-			'Round ' + (PvPPong.round + 1),
+			'Round ' + (Pong.round + 1),
 			(this.canvas.width / 2),
 			35
 		);
@@ -367,12 +361,37 @@ var Game = {
 	},
 
 	// Reset the pvpBall location, the turns and set a delay before the next round begins.
-	_resetTurn: function(victor, loser) {
+	_resetTurn: function(playerTwoPoint) {
+		min = 0;
+		max = 1;
+
+		min = Math.ceil(min);
+    	max = Math.floor(max);
+		nextTurn = Math.floor(Math.random() * (max - min + 1)) + min;
+		
 		this.pvpBall = pvpBall.new.call(this, this.pvpBall.speed);
-		this.turn = loser;
 		this.timer = (new Date()).getTime();
 
-		victor.score++;
+		if(nextTurn == 1)
+		{
+			this.turn = this.player1;
+		}
+		else if(nextTurn === 0)
+		{
+			this.turn = this.player2;
+		}
+
+		if(playerTwoPoint)
+		{
+			score.countTwo++;
+		}
+		else
+		{
+			score.countOne++;
+		}
+
+		Pong.updateScorePvP(1);
+		Pong.updateScorePvP(2);
 	},
 
 	// Wait for a delay to have passed after each turn.
@@ -382,4 +401,6 @@ var Game = {
 };
 
 var PvPPong = Object.assign({}, Game);
+Pong.updateScorePvP(1);
+Pong.updateScorePvP(2);
 PvPPong.initialize();

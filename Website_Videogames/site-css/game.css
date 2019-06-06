@@ -49,3 +49,25 @@ canvas#game {
 #PVP {
   display: none;
 }
+
+#pongScore {
+  font-size: 30px;
+  font-family: "Courier New";
+	color: #ffffff;
+}
+
+#pvpPongScore1 {
+  float: left;
+  padding-left: 150px;
+  font-size: 30px;
+  font-family: "Courier New";
+	color: #ffffff;
+}
+
+#pvpPongScore2 {
+  float: right;
+  padding-right: 150px;
+  font-size: 30px;
+  font-family: "Courier New";
+	color: #ffffff;
+}

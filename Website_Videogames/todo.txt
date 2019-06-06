@@ -4,6 +4,6 @@ to everything done, a ° will be added
 ° remove remaining click triggers
 ° remove display:none
 ° remove stats.js (?)
-- score (&interface) should be the same
+° score (&interface) should be the same
 
-Done: 4/5
+Done: 5/5

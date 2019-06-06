@@ -81,7 +81,7 @@ function loop() {
       snake.maxCells++;
       score.count++;
 
-      updateScore();
+      updateScoreSnake();
 
       // canvas is 400x400 which is 25x25 grids
       apple.x = getRandomInt(0, 25) * grid;
@@ -101,13 +101,13 @@ function loop() {
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
         score.count = 0;
-        updateScore();
+        updateScoreSnake();
       }
     }
   });
 }
 
-function updateScore() {
+function updateScoreSnake() {
   document.getElementById('snakeScore').innerText = score.text + score.count;
 }
 
@@ -140,5 +140,5 @@ document.addEventListener('keydown', function(e) {
   }
 });
 // start the game
-updateScore();
+updateScoreSnake();
 requestAnimationFrame(loop);
