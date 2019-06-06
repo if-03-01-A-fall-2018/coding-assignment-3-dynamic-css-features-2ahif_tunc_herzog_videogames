@@ -1,9 +1,9 @@
 to everything done, a ° will be added
 
 ° hr to be replaced by border-bottom? Take care of nifty styling
-- remove remaining click triggers
+° remove remaining click triggers
 ° remove display:none
 ° remove stats.js (?)
 - score (&interface) should be the same
 
-Done: 3/5
+Done: 4/5

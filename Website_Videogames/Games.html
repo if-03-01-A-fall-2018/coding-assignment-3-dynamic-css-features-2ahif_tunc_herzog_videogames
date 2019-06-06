@@ -61,7 +61,7 @@
 			<p>You control the bricks falling down. Fit them in a row to get points.</p>
 			<p>Use the arrow buttons.</p>
 
-			<div id="score"></div>
+			<div id="tetrisScore"></div>
 			<canvas id="playground" width="240" height="400"></canvas>
 			<script type="text/javascript" src="tetris.js"></script>
 		</div>
@@ -76,7 +76,8 @@
 			</p>
 			<p> The goal is to make the snake as large as possible before that happens.</p>
 
-			<canvas width="400" height="400" id="game"></canvas>
+			<div id="snakeScore"></div>
+			<canvas id="game" width="400" height="400"></canvas>
 			<script type="text/javascript" src="snake.js"></script>
 		</div>
 
@@ -96,12 +97,14 @@
 
 			<div id="AI">
 				<p> You are now playing against an A.I.! </p>
+				<div id="pongScore"></div>
 				<canvas id="pongcanvas"></canvas>
 				<script type="text/javascript" src="pong.js"></script>
 			</div>
 
 			<div id="PVP">
 				<p> You are now playing in PvP (competitive) mode! </p>
+				<div id="pvpPongScore"></div>
 				<canvas id="pvpcanvas"></canvas>
 				<script type="text/javascript" src="pvpPong.js"></script>
 			</div>

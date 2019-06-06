@@ -18,18 +18,17 @@ var snake = {
   // length of the snake. grows when eating a red block
   maxCells: 4
 };
+
 var apple = {
   x: 320,
   y: 320
 };
 
 var score = {
-  x: 50,
-  y: 50,
-
-  temp: 0,
-  text: "SCORE: 0"
+  count: 0,
+  text: "SCORE: "
 };
+
 // get random whole numbers in a specific range
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -68,10 +67,6 @@ function loop() {
   if (snake.cells.length > snake.maxCells) {
     snake.cells.pop();
   }
-  //draw score
-  context.font = "30px Arial";
-  context.fillStyle = 'white';
-  context.fillText(score.text, score.x, score.y);
   // draw red block
   context.fillStyle = 'red';
   context.fillRect(apple.x, apple.y, grid-1, grid-1);
@@ -84,9 +79,9 @@ function loop() {
     // snake ate red block
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
-      score.temp++;
+      score.count++;
 
-      score.text = "SCORE: " + score.temp;
+      updateScore();
 
       // canvas is 400x400 which is 25x25 grids
       apple.x = getRandomInt(0, 25) * grid;
@@ -105,10 +100,15 @@ function loop() {
         snake.dy = 0;
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
-        score.text = "SCORE: 0";
+        score.count = 0;
+        updateScore();
       }
     }
   });
+}
+
+function updateScore() {
+  document.getElementById('snakeScore').innerText = score.text + score.count;
 }
 
 // listen to keyboard events to move the snake
@@ -140,4 +140,5 @@ document.addEventListener('keydown', function(e) {
   }
 });
 // start the game
+updateScore();
 requestAnimationFrame(loop);
