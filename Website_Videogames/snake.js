@@ -2,7 +2,8 @@ var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 var grid = 16;
 var count = 0;
-var score = 0;
+var snakeScore = 0;
+var running = false;
 
 var snake = {
   x: 160,
@@ -24,7 +25,7 @@ var apple = {
   y: 320
 };
 
-var score = {
+var snakeScore = {
   count: 0,
   text: "SCORE: "
 };
@@ -34,9 +35,13 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+function menu() {
+  anyKey();
+  listen();
+}
+
 // game loop
 function loop() {
-  requestAnimationFrame(loop);
   // slow game loop to 15 fps instead of 60 (60/15 = 4)
   if (++count < 4) {
     return;
@@ -79,7 +84,7 @@ function loop() {
     // snake ate red block
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
-      score.count++;
+      snakeScore.count++;
 
       updateScoreSnake();
 
@@ -100,45 +105,67 @@ function loop() {
         snake.dy = 0;
         apple.x = getRandomInt(0, 25) * grid;
         apple.y = getRandomInt(0, 25) * grid;
-        score.count = 0;
+        snakeScore.count = 0;
         updateScoreSnake();
       }
     }
   });
 }
 
-function updateScoreSnake() {
-  document.getElementById('snakeScore').innerText = score.text + score.count;
+function anyKey()
+{
+  context.font = '20px Courier New';
+  context.fillStyle = 'white';
+  context.fillText('Press any key to begin',
+  canvas.width / 2 - 120,
+  canvas.height / 2);
 }
 
-// listen to keyboard events to move the snake
-document.addEventListener('keydown', function(e) {
+function updateScoreSnake() {
+  document.getElementById('snakeScore').innerText = snakeScore.text + snakeScore.count;
+}
+
+function listen() {
+  // listen to keyboard events to move the snake
+document.addEventListener('keydown', function(key) {
   // prevent snake from backtracking on itself by checking that it's
   // not already moving on the same axis (pressing left while moving
   // left won't do anything, and pressing right while moving left
   // shouldn't let you collide with your own body)
 
+  // Handle the 'Press any key to begin' function and start the game.
+  if (running === false) {
+    running = true;
+    window.requestAnimationFrame(loop);
+  }
+
   // left arrow key
-  if (e.which === 37 && snake.dx === 0) {
+  if (key.which === 37 && snake.dx === 0) {
+    key.preventDefault();
     snake.dx = -grid;
     snake.dy = 0;
   }
   // up arrow key
-  else if (e.which === 38 && snake.dy === 0) {
+  else if (key.which === 38 && snake.dy === 0) {
+    key.preventDefault();
     snake.dy = -grid;
     snake.dx = 0;
   }
   // right arrow key
-  else if (e.which === 39 && snake.dx === 0) {
+  else if (key.which === 39 && snake.dx === 0) {
+    key.preventDefault();
     snake.dx = grid;
     snake.dy = 0;
   }
   // down arrow key
-  else if (e.which === 40 && snake.dy === 0) {
+  else if (key.which === 40 && snake.dy === 0) {
+    key.preventDefault();
     snake.dy = grid;
     snake.dx = 0;
   }
 });
+}
+
 // start the game
 updateScoreSnake();
-requestAnimationFrame(loop);
+loop();
