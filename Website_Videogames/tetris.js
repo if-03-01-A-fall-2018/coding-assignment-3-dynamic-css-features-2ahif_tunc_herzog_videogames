@@ -1,11 +1,12 @@
 const playground = document.getElementById('playground');
 const cntxt = playground.getContext('2d');
+var running = false;
 
 cntxt.scale(20, 20);
 
 function arenaSweep() {
     let rowCount = 1;
-    outer: for (let y = arena.length -1; y > 0; --y) {
+    outer: for (let y = arena.length - 1; y > 0; --y) {
         for (let x = 0; x < arena[y].length; ++x) {
             if (arena[y][x] === 0) {
                 continue outer;
@@ -27,8 +28,8 @@ function collide(arena, player) {
     for (let y = 0; y < m.length; ++y) {
         for (let x = 0; x < m[y].length; ++x) {
             if (m[y][x] !== 0 &&
-               (arena[y + o.y] &&
-                arena[y + o.y][x + o.x]) !== 0) {
+                (arena[y + o.y] &&
+                    arena[y + o.y][x + o.x]) !== 0) {
                 return true;
             }
         }
@@ -44,8 +45,7 @@ function createMatrix(w, h) {
     return matrix;
 }
 
-function createPiece(type)
-{
+function createPiece(type) {
     if (type === 'I') {
         return [
             [0, 1, 0, 0],
@@ -97,8 +97,8 @@ function drawMatrix(matrix, offset) {
             if (value !== 0) {
                 cntxt.fillStyle = color[value];
                 cntxt.fillRect(x + offset.x,
-                                 y + offset.y,
-                                 1, 1);
+                    y + offset.y,
+                    1, 1);
             }
         });
     });
@@ -108,7 +108,10 @@ function draw() {
     cntxt.fillStyle = '#000';
     cntxt.fillRect(0, 0, playground.width, playground.height);
 
-    drawMatrix(arena, {x: 0, y: 0});
+    drawMatrix(arena, {
+        x: 0,
+        y: 0
+    });
     drawMatrix(player.matrix, player.pos);
 }
 
@@ -166,7 +169,7 @@ function playerReset() {
     player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
     player.pos.y = 0;
     player.pos.x = (arena[0].length / 2 | 0) -
-                   (player.matrix[0].length / 2 | 0);
+        (player.matrix[0].length / 2 | 0);
     if (collide(arena, player)) {
         arena.forEach(row => row.fill(0));
         player.score = 0;
@@ -194,6 +197,10 @@ let dropInterval = 1000;
 
 let lastTime = 0;
 
+function menu() {
+    anyKey();
+    listen();
+}
 
 function update(time = 0) {
     const deltaTime = time - lastTime;
@@ -213,21 +220,36 @@ function updateScore() {
     document.getElementById('tetrisScore').innerText = player.text + player.score;
 }
 
-document.addEventListener('keydown', event => {
-    if (event.keyCode === 37) {
-        playerMove(-1);
-        event.preventDefault();
-    } else if (event.keyCode === 39) {
-        event.preventDefault();
-        playerMove(1);
-    } else if (event.keyCode === 40) {
-        event.preventDefault();
-        playerDrop();
-    } else if (event.keyCode === 38) {
-        event.preventDefault();
-        playerRotate(1);
-    }
-});
+function anyKey() {
+    cntxt.font = '20px Courier New';
+    cntxt.fillStyle = 'white';
+    cntxt.fillText('Press any key to begin',
+        playground.width / 2 - 120,
+        playground.height / 2);
+}
+
+function listen() {
+    document.addEventListener('keydown', event => {
+        if (running === false) {
+            running = true;
+            window.requestAnimationFrame(update);
+        }
+
+        if (event.keyCode === 37) {
+            playerMove(-1);
+            event.preventDefault();
+        } else if (event.keyCode === 39) {
+            event.preventDefault();
+            playerMove(1);
+        } else if (event.keyCode === 40) {
+            event.preventDefault();
+            playerDrop();
+        } else if (event.keyCode === 38) {
+            event.preventDefault();
+            playerRotate(1);
+        }
+    });
+}
 
 const color = [
     null,
@@ -243,12 +265,15 @@ const color = [
 const arena = createMatrix(12, 20);
 
 const player = {
-    pos: {x: 0, y: 0},
-    matrix: null,  
+    pos: {
+        x: 0,
+        y: 0
+    },
+    matrix: null,
     score: 0,
     text: "SCORE: "
 };
 
 playerReset();
 updateScore();
-update();
+menu();
