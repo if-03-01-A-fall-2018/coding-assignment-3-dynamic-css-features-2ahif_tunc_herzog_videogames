@@ -3,7 +3,7 @@ var context = canvas.getContext('2d');
 var grid = 16;
 var count = 0;
 var snakeScore = 0;
-var running = false;
+var snakeRunning = false;
 
 var snake = {
   x: 160,
@@ -135,8 +135,8 @@ document.addEventListener('keydown', function(key) {
   // shouldn't let you collide with your own body)
 
   // Handle the 'Press any key to begin' function and start the game.
-  if (running === false) {
-    running = true;
+  if (snakeRunning === false) {
+    snakeRunning = true;
     window.requestAnimationFrame(loop);
   }
 
@@ -165,6 +165,11 @@ document.addEventListener('keydown', function(key) {
     snake.dx = 0;
   }
 });
+}
+
+function snakeRestart()
+{
+  window.alert("snake restarted!");
 }
 
 // start the game

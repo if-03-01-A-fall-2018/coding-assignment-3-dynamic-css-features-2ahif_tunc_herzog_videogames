@@ -60,7 +60,7 @@ var Game = {
 		this.ball = Ball.new.call(this);
 
 		this.paddle.speed = 8;
-		this.running = false;
+		this.pongRunning = false;
 		this.turn = this.paddle;
 		this.timer = this.round = 0;
 		this.color = '#222233';
@@ -183,17 +183,6 @@ var Game = {
 		document.getElementById('pongScore').innerText = score.text + score.count;
 	},
 
-	updateScorePvP: function (player) {
-		if(player == 1)
-		{
-			document.getElementById('pvpPongScore1').innerText = score.text + score.countOne;
-		}
-		else
-		{
-			document.getElementById('pvpPongScore2').innerText = score.text + score.countTwo;
-		}
-	},
-
 	// Draw the objects to the canvas element
 	draw: function () {
 		// Clear the Canvas
@@ -268,8 +257,8 @@ var Game = {
 	listen: function () {
 		document.addEventListener('keydown', function (key) {
 			// Handle the 'Press any key to begin' function and start the game.
-			if (Pong.running === false) {
-				Pong.running = true;
+			if (Pong.pongRunning === false) {
+				Pong.pongRunning = true;
 				window.requestAnimationFrame(Pong.loop);
 			}
 
@@ -290,6 +279,15 @@ var Game = {
 		document.addEventListener('keyup', function (key) {
 			Pong.player.move = DIRECTION.IDLE;
 		});
+	},
+
+	// Wait for a delay to have passed after each turn.
+	_turnDelayIsOver: function () {
+		return ((new Date()).getTime() - this.timer >= 1000);
+	},
+
+	pongRestart: function()	{
+		window.alert("AI pong restarted!");
 	},
 
 	// Reset the ball location, the player turns and set a delay before the next round begins.
@@ -328,12 +326,7 @@ var Game = {
 		}
 
 		Pong.updateScorePong();
-	},
-
-	// Wait for a delay to have passed after each turn.
-	_turnDelayIsOver: function () {
-		return ((new Date()).getTime() - this.timer >= 1000);
-	}
+	}	
 };
 
 var Pong = Object.assign({}, Game);

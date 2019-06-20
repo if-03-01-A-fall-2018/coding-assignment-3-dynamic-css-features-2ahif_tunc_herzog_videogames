@@ -10,7 +10,7 @@ var DIRECTION = {
 var rounds = [5, 5, 3, 3, 2];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6'];
 
-var score = {
+var pvpScore = {
 	countOne: 0,
 	countTwo: 0,
 	text: "SCORE: "
@@ -18,7 +18,7 @@ var score = {
 
 // The Ball object (The cube that bounces back and forth)
 var pvpBall = {
-	new: function(incrementedSpeed) {
+	new: function (incrementedSpeed) {
 		return {
 			width: 18,
 			height: 18,
@@ -33,7 +33,7 @@ var pvpBall = {
 
 // The Paddle object (The two lines that move up and down)
 var pvpPaddle = {
-	new: function(side) {
+	new: function (side) {
 		return {
 			width: 18,
 			height: 85,
@@ -46,7 +46,7 @@ var pvpPaddle = {
 };
 
 var Game = {
-	initialize: function() {
+	initialize: function () {
 		this.canvas = document.querySelector('#pvpcanvas');
 		this.pvpContext = this.canvas.getContext('2d');
 
@@ -60,7 +60,7 @@ var Game = {
 		this.player2 = pvpPaddle.new.call(this, 'right');
 		this.pvpBall = pvpBall.new.call(this);
 
-		this.running = this.over = false;
+		this.pvpRunning = this.over = false;
 		this.turn = this.player2;
 		this.timer = this.round = 0;
 		this.color = '#222233';
@@ -69,7 +69,7 @@ var Game = {
 		PvPPong.listen();
 	},
 
-	endGameMenu: function(text) {
+	endGameMenu: function (text) {
 		// Change the canvas font size and color
 		PvPPong.pvpContext.font = '50px Courier New';
 		PvPPong.pvpContext.fillStyle = '#222233';
@@ -91,13 +91,13 @@ var Game = {
 			PvPPong.canvas.height / 2 + 15
 		);
 
-		setTimeout(function() {
+		setTimeout(function () {
 			PvPPong = Object.assign({}, Game);
 			PvPPong.initialize();
 		}, 3000);
 	},
 
-	menu: function() {
+	menu: function () {
 		// Draw all the PvPPong objects in their current state
 		PvPPong.draw();
 
@@ -124,7 +124,7 @@ var Game = {
 	},
 
 	// Update all objects (move the player1, player2, pvpBall, increment the score, etc.)
-	update: function() {
+	update: function () {
 		if (!this.over) {
 			// If the pvpBall collides with the bound limits - correct the x and y coords.
 			if (this.pvpBall.x <= 0) PvPPong._resetTurn.call(this, true);
@@ -147,7 +147,7 @@ var Game = {
 			// If the player2 collides with the bound limits, update the x and y coords.
 			if (this.player2.y >= this.canvas.height - this.player2.height) this.player2.y = this.canvas.height - this.player2.height;
 			else if (this.player2.y <= 0) this.player2.y = 0;
-			
+
 			// On new serve (start of each turn) move the pvpBall to the correct side
 			// and randomize the direction to add some challenge.
 			if (PvPPong._turnDelayIsOver.call(this) && this.turn) {
@@ -162,7 +162,7 @@ var Game = {
 			else if (this.pvpBall.moveY === DIRECTION.DOWN) this.pvpBall.y += (this.pvpBall.speed / 1.5);
 			if (this.pvpBall.moveX === DIRECTION.LEFT) this.pvpBall.x -= this.pvpBall.speed;
 			else if (this.pvpBall.moveX === DIRECTION.RIGHT) this.pvpBall.x += this.pvpBall.speed;
-		
+
 			// Handle player1-pvpBall collisions
 			if (this.pvpBall.x - this.pvpBall.width <= this.player1.x && this.pvpBall.x >= this.player1.x - this.player1.width) {
 				if (this.pvpBall.y <= this.player1.y + this.player1.height && this.pvpBall.y + this.pvpBall.height >= this.player1.y) {
@@ -182,18 +182,18 @@ var Game = {
 
 		// Handle the end of round transition
 		// Check to see if the player1 won the round.
-		if (score.countOne === rounds[this.round]) {
+		if (pvpScore.countOne === rounds[this.round]) {
 			// Check to see if there are any more rounds/levels left and display the victory screen if
 			// there are not.
 			if (!rounds[this.round + 1]) {
 				this.over = true;
-				setTimeout(function() {
+				setTimeout(function () {
 					PvPPong.endGameMenu('Player 1 wins!');
 				}, 1000);
 			} else {
 				// If there is another round, reset all the values and increment the round number.
 				this.color = "#222233";
-				score.countOne = score.countTwo = 0;
+				pvpScore.countOne = pvpScore.countTwo = 0;
 				this.player1.speed += 0.5;
 				this.player2.speed += 0.5;
 				this.pvpBall.speed += 1;
@@ -201,18 +201,18 @@ var Game = {
 			}
 		}
 		// Check to see if the player2 has won the round.
-		else if (score.countTwo === rounds[this.round]) {
+		else if (pvpScore.countTwo === rounds[this.round]) {
 			// Check to see if there are any more rounds/levels left and display the victory screen if
 			// there are not.
 			if (!rounds[this.round + 1]) {
 				this.over = true;
-				setTimeout(function() {
+				setTimeout(function () {
 					PvPPong.endGameMenu('Player 2 wins!');
 				}, 1000);
 			} else {
 				// If there is another round, reset all the values and increment the round number.
 				this.color = "#222233";
-				score.countOne = score.countTwo = 0;
+				pvpScore.countOne = pvpScore.countTwo = 0;
 				this.player1.speed += 0.5;
 				this.player2.speed += 0.5;
 				this.pvpBall.speed += 1;
@@ -220,12 +220,21 @@ var Game = {
 			}
 		}
 
-		Pong.updateScorePvP(1);
-		Pong.updateScorePvP(2);
+		PvPPong.updateScorePvP(1);
+		PvPPong.updateScorePvP(2);
 	},
-	
+
+	updateScorePvP: function (player) {
+		if (player == 1) {
+			document.getElementById('pvpPongScore1').innerText = pvpScore.text + pvpScore.countOne;
+		}
+		else {
+			document.getElementById('pvpPongScore2').innerText = pvpScore.text + pvpScore.countTwo;
+		}
+	},
+
 	// Draw the objects to the canvas element
-	draw: function() {
+	draw: function () {
 		// Clear the Canvas
 		this.pvpContext.clearRect(
 			0,
@@ -308,7 +317,7 @@ var Game = {
 		);
 	},
 
-	loop: function() {
+	loop: function () {
 		PvPPong.update();
 		PvPPong.draw();
 
@@ -316,91 +325,87 @@ var Game = {
 		if (!PvPPong.over) requestAnimationFrame(PvPPong.loop);
 	},
 
-	listen: function() {
-		document.addEventListener('keydown', function(pvpKey) {
-			// Handle the 'Press any key to begin' function and start the game.
-			if (PvPPong.running === false) {
-				PvPPong.running = true;
-				window.requestAnimationFrame(PvPPong.loop);
-			}
+	listen: function () {
+		document.addEventListener('keydown', function (key) {
+				// Handle the 'Press any key to begin' function and start the game.
+				if (PvPPong.pvpRunning === false) {
+					PvPPong.pvpRunning = true;
+					window.requestAnimationFrame(PvPPong.loop);
+				}
 
-			// Handle w key events for player1
-			if (pvpKey.keyCode === 87)
-			{
-				pvpKey.preventDefault();
-				PvPPong.player1.move = DIRECTION.UP;
-			}
+				// Handle w key events for player1
+				if (key.keyCode === 87) {
+					key.preventDefault();
+					PvPPong.player1.move = DIRECTION.UP;
+				}
 
-			// Handle s key events for player1
-			if (pvpKey.keyCode === 83)
-			{
-				pvpKey.preventDefault();
-				PvPPong.player1.move = DIRECTION.DOWN;
-			} 
+				// Handle s key events for player1
+				if (key.keyCode === 83) {
+					key.preventDefault();
+					PvPPong.player1.move = DIRECTION.DOWN;
+				}
 
-			// Handle up arrow key events for player2
-			if (pvpKey.keyCode === 38)
-			{
-				pvpKey.preventDefault();
-				PvPPong.player2.move = DIRECTION.UP;
-			}
+				// Handle up arrow key events for player2
+				if (key.keyCode === 38) {
+					key.preventDefault();
+					PvPPong.player2.move = DIRECTION.UP;
+				}
 
-			// Handle down arrow key events for player2
-			if (pvpKey.keyCode === 40)
-			{
-				pvpKey.preventDefault();
-				PvPPong.player2.move = DIRECTION.DOWN;
-			} 
+				// Handle down arrow key events for player2
+				if (key.keyCode === 40) {
+					key.preventDefault();
+					PvPPong.player2.move = DIRECTION.DOWN;
+				}
 		});
 
 		// Stop the player1 and player2 from moving when there are no keys being pressed.
-		document.addEventListener('keyup', function(pvpKey) {
+		document.addEventListener('keyup', function (key) {
 			PvPPong.player1.move = DIRECTION.IDLE;
 			PvPPong.player2.move = DIRECTION.IDLE;
 		});
 	},
 
 	// Reset the pvpBall location, the turns and set a delay before the next round begins.
-	_resetTurn: function(playerTwoPoint) {
+	_resetTurn: function (playerTwoPoint) {
 		min = 0;
 		max = 1;
 
 		min = Math.ceil(min);
-    	max = Math.floor(max);
+		max = Math.floor(max);
 		nextTurn = Math.floor(Math.random() * (max - min + 1)) + min;
-		
+
 		this.pvpBall = pvpBall.new.call(this, this.pvpBall.speed);
 		this.timer = (new Date()).getTime();
 
-		if(nextTurn == 1)
-		{
+		if (nextTurn == 1) {
 			this.turn = this.player1;
 		}
-		else if(nextTurn === 0)
-		{
+		else if (nextTurn === 0) {
 			this.turn = this.player2;
 		}
 
-		if(playerTwoPoint)
-		{
-			score.countTwo++;
+		if (playerTwoPoint) {
+			pvpScore.countTwo++;
 		}
-		else
-		{
-			score.countOne++;
+		else {
+			pvpScore.countOne++;
 		}
 
-		Pong.updateScorePvP(1);
-		Pong.updateScorePvP(2);
+		PvPPong.updateScorePvP(1);
+		PvPPong.updateScorePvP(2);
 	},
 
 	// Wait for a delay to have passed after each turn.
-	_turnDelayIsOver: function() {
+	_turnDelayIsOver: function () {
 		return ((new Date()).getTime() - this.timer >= 1000);
+	},
+
+	pvpRestart: function()	{
+		window.alert("PVP pong restarted!");
 	}
 };
 
 var PvPPong = Object.assign({}, Game);
-Pong.updateScorePvP(1);
-Pong.updateScorePvP(2);
+PvPPong.updateScorePvP(1);
+PvPPong.updateScorePvP(2);
 PvPPong.initialize();

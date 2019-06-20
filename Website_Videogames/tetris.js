@@ -1,8 +1,6 @@
 const playground = document.getElementById('playground');
 const cntxt = playground.getContext('2d');
-var running = false;
-
-cntxt.scale(20, 20);
+var tetrisRunning = false;
 
 function arenaSweep() {
     let rowCount = 1;
@@ -107,7 +105,6 @@ function drawMatrix(matrix, offset) {
 function draw() {
     cntxt.fillStyle = '#000';
     cntxt.fillRect(0, 0, playground.width, playground.height);
-
     drawMatrix(arena, {
         x: 0,
         y: 0
@@ -154,6 +151,7 @@ function playerDrop() {
         arenaSweep();
         updateScore();
     }
+
     dropCounter = 0;
 }
 
@@ -192,19 +190,18 @@ function playerRotate(dir) {
     }
 }
 
-let dropCounter = 0;
-let dropInterval = 1000;
-
-let lastTime = 0;
-
 function menu() {
     anyKey();
     listen();
 }
 
+let dropCounter = 0;
+let dropInterval = 1000;
+let lastTime = 0;
+
 function update(time = 0) {
     const deltaTime = time - lastTime;
-
+    lastTime = time;
     dropCounter += deltaTime;
     if (dropCounter > dropInterval) {
         playerDrop();
@@ -223,15 +220,20 @@ function updateScore() {
 function anyKey() {
     cntxt.font = '20px Courier New';
     cntxt.fillStyle = 'white';
-    cntxt.fillText('Press any key to begin',
-        playground.width / 2 - 120,
-        playground.height / 2);
+    cntxt.fillText('Press any key',
+    playground.width - 200,
+    playground.height / 2);
+    cntxt.fillText('to begin',
+    playground.width - 170,
+    playground.height - 170);
+
+    cntxt.scale(20, 20);
 }
 
 function listen() {
     document.addEventListener('keydown', event => {
-        if (running === false) {
-            running = true;
+        if (tetrisRunning === false) {
+            tetrisRunning = true;
             window.requestAnimationFrame(update);
         }
 
@@ -274,6 +276,11 @@ const player = {
     text: "SCORE: "
 };
 
-playerReset();
+function tetrisRestart()
+{
+    window.alert("tetris restarted!");
+}
+
 updateScore();
+playerReset();
 menu();
