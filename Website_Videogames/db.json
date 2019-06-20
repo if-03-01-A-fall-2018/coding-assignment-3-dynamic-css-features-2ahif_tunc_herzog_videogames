@@ -17,6 +17,41 @@
       "name": "natsu",
       "score": 1,
       "id": 3
+    },
+    {
+      "game": "snake",
+      "name": "natsu",
+      "score": 1,
+      "id": 4
+    },
+    {
+      "game": "pong",
+      "name": "natsu13",
+      "score": 1,
+      "id": 5
+    },
+    {
+      "game": "tetris",
+      "name": "B)",
+      "id": 6
+    },
+    {
+      "game": "tetris",
+      "name": "B-)",
+      "score": 10,
+      "id": 7
+    },
+    {
+      "game": "tetris",
+      "name": "cool",
+      "score": 20,
+      "id": 8
+    },
+    {
+      "game": "snake",
+      "name": "hihi",
+      "score": 5,
+      "id": 9
     }
   ]
 }

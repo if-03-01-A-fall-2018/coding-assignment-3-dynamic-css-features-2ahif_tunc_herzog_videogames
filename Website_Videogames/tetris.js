@@ -262,7 +262,7 @@ const player = {
 document.querySelector("#stopTetris").addEventListener("click", function() 
 {
   name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
-  savePlayer(name, player.Score, "tetris");
+  savePlayer(name, player.score, "tetris");
   tetrisRestart();
 });
 

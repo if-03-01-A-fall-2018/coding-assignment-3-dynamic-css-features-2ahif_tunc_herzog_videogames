@@ -19,15 +19,9 @@ button.mode {
 
 .mode:hover { background-color: rgb(94, 94, 94);}
 
-.scoreboard
-{
-  position:absolute;
-  top:50%;
-  left:20%;
-}
-
-table.scoreboard{
-  width: 1000px;
+.scoreboard {
+  float: left;
+  width: 400px;
 }
 
 .tabcontent {

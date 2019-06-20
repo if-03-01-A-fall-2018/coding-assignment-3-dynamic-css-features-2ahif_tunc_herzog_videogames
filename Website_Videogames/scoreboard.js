@@ -18,15 +18,26 @@ function GetPlayers() {
 }
 
 function WriteHtml(data) {
-  var p = document.getElementById("players");
+  var t = document.getElementById("tetris");
+  var p = document.getElementById("pong");
+  var s = document.getElementById("snake");
   var i;
  console.log("hi!");
   for (i = 0; i < data.length; i++) {
-    if(data[i] === "tetris")
+    if(data[i].game === "pong")
     {
-      //do smth
+      p.innerHTML += '<tr>' + '<td>' + data[i].name + '<td>' + data[i].score + '</tr>';
     }
+    else if(data[i].game === "tetris")
+    {
+      t.innerHTML += '<tr>' + '<td>' + data[i].name + '<td>' + data[i].score + '</tr>';
+    }
+    else if(data[i].game === "snake")
+    {
+      s.innerHTML += '<tr>' + '<td>' + data[i].name + '<td>' + data[i].score + '</tr>';
+    }
+    
    console.log(data);
-    p.innerHTML += '<tr>' + '<td>' + data[i].name + ' ' + data[i].score + '</td>' + '<td>' + data[i].info + '</td>' + '<td>' + data[i].info + '</td>' + '</tr>';
+    
   }
 }
