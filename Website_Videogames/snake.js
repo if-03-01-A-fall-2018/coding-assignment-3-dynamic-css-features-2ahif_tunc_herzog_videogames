@@ -161,7 +161,7 @@ function listen() {
 document.querySelector("#stopSnake").addEventListener("click", function() 
 {
   name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
-  savePlayer(name, snakeScore, "snake");
+  savePlayer(name, snakeScore.count, "snake");
   snakeRestart();
 });
 

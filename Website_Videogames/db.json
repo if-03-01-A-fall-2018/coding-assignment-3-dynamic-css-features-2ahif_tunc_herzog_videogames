@@ -1,4 +1,22 @@
 {
-  "scores": 
-    { "id": 1, "game": "snake", "name": "no name", "score": 12 }
+  "scores": [
+    {
+      "id": 1,
+      "game": "snake",
+      "name": "Alex",
+      "score": 2
+    },
+    {
+      "game": "snake",
+      "name": "natsu",
+      "score": 1,
+      "id": 2
+    },
+    {
+      "game": "snake",
+      "name": "natsu",
+      "score": 1,
+      "id": 3
+    }
+  ]
 }

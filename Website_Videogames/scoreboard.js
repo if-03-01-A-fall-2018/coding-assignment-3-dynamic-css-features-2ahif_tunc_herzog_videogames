@@ -12,35 +12,21 @@ function GetPlayers() {
       return response.json();
     })
     .then(data => {
-      var sortedData = SortPlayers(data);
-      WriteHtml(sortedData);
+        console.log(data);
+      WriteHtml(data);
     })
-}
-
-function SortPlayers(data) {
-  var ix = JSON.stringify(data);
-  var obj = JSON.parse(ix);
-
-  var i;
-  var j;
-  for (i = 0; i < data.length; i++) {
-    for (j = 0; j < data.length - i - 1; j++) {
-      if (data[j].score < data[j + 1].score) {
-        var temp = data[j];
-        data[j] = data[j + 1];
-        data[j + 1] = temp;
-      }
-    }
-  }
-
-  return data;
 }
 
 function WriteHtml(data) {
   var p = document.getElementById("players");
   var i;
-
+ console.log("hi!");
   for (i = 0; i < data.length; i++) {
-    p.innerHTML += '<tr>' + '<td>' + data[i].info + '</td>' + '<td>' + data[i].info + '</td>' + '<td>' + data[i].info + '</td>' + '</tr>';
+    if(data[i] === "tetris")
+    {
+      //do smth
+    }
+   console.log(data);
+    p.innerHTML += '<tr>' + '<td>' + data[i].name + ' ' + data[i].score + '</td>' + '<td>' + data[i].info + '</td>' + '<td>' + data[i].info + '</td>' + '</tr>';
   }
 }
