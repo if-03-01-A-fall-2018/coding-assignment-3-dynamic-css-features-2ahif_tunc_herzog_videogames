@@ -161,7 +161,7 @@ function listen() {
 document.querySelector("#stopSnake").addEventListener("click", function() 
 {
   name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
-  savePlayer(name, snakeScore);
+  savePlayer(name, snakeScore, "snake");
   snakeRestart();
 });
 
@@ -176,21 +176,6 @@ function snakeRestart() {
   apple.y = getRandomInt(0, 25) * grid;
   snakeScore.count = 0;
   updateScoreSnake();
-}
-
-function savePlayer(name, score) {
-  var data = { "info": name + " " + score };
-
-  fetch('http://localhost:3000/scores', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-    .then(response => console.log('Success:', JSON.stringify(data)))
-    .catch(error => console.error('Error:', error));
 }
 
 // start the game

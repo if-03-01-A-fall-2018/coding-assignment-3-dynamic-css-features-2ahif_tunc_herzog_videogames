@@ -262,7 +262,7 @@ const player = {
 document.querySelector("#stopTetris").addEventListener("click", function() 
 {
   name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
-  savePlayer(name, player.Score);
+  savePlayer(name, player.Score, "tetris");
   tetrisRestart();
 });
 
@@ -282,21 +282,6 @@ function tetrisRestart() {
         player.score += rowCount * 10;
         rowCount *= 2;
     }
-}
-
-function savePlayer(name, score) {
-  var data = { "info": name + " " + score };
-
-  fetch('http://localhost:3000/scores', {
-    method: 'POST',
-    body: JSON.stringify(data),
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-    .then(response => console.log('Success:', JSON.stringify(data)))
-    .catch(error => console.error('Error:', error));
 }
 
 updateScore();

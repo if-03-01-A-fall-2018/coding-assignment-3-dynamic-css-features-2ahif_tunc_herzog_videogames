@@ -46,3 +46,18 @@ function openGame(evt, game) {
     document.getElementById(game).style.display = "block";
     evt.currentTarget.className += " active";
 }
+
+function savePlayer(name, score, game) {
+    var data = { "game" : game, "name": name, "score": score };
+  
+    fetch('http://localhost:3000/scores', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+      .then(response => console.log('Success:', JSON.stringify(data)))
+      .catch(error => console.error('Error:', error));
+  }

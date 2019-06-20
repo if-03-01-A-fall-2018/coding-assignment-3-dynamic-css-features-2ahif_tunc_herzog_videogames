@@ -413,7 +413,7 @@ document.querySelector("#stopPVPPong").addEventListener("click", function () {
 	name2 = prompt("Player 2, enter your name!");
 
 	name1 = name1 + " " + pvpScore.countOne + " " + name2;
-	savePlayer(name1, pvpScore.countTwo);
+	savePlayer(name1, pvpScore.countTwo, "pvpPong");
 	pvpPongRestart();
 });
 
@@ -423,21 +423,6 @@ function pvpPongRestart() {
 	pvpScore.countTwo = 0;
 	this.pvpPaddle.speed = 10;
 	this.pvpBall.speed = 9;
-}
-
-function savePlayer(name, score) {
-	var data = { "info": name + " " + score };
-
-	fetch('http://localhost:3000/scores', {
-		method: 'POST',
-		body: JSON.stringify(data),
-		headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-		}
-	}).then(res => res.json())
-		.then(response => console.log('Success:', JSON.stringify(data)))
-		.catch(error => console.error('Error:', error));
 }
 
 var PvPPong = Object.assign({}, Game);
