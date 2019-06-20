@@ -4,6 +4,7 @@ var grid = 16;
 var count = 0;
 var snakeScore = 0;
 var snakeRunning = false;
+var name = "no name";
 
 var snake = {
   x: 160,
@@ -48,7 +49,8 @@ function loop() {
     return;
   }
   count = 0;
-  context.clearRect(0,0,canvas.width,canvas.height);
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
   // move snake by it's velocity
   snake.x += snake.dx;
   snake.y += snake.dy;
@@ -68,20 +70,19 @@ function loop() {
     snake.y = 0;
   }
   // keep track of where snake has been. front of the array is always the head
-  snake.cells.unshift({x: snake.x, y: snake.y});
+  snake.cells.unshift({ x: snake.x, y: snake.y });
   // remove cells as we move away from them
   if (snake.cells.length > snake.maxCells) {
     snake.cells.pop();
   }
   // draw red block
   context.fillStyle = 'red';
-  context.fillRect(apple.x, apple.y, grid-1, grid-1);
+  context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
   // draw snake one cell at a time
   context.fillStyle = 'green';
-  snake.cells.forEach(function(cell, index)
-  {
+  snake.cells.forEach(function (cell, index) {
     // drawing 1 px smaller than the grid creates a grid effect in the snake body so you can see how long it is
-    context.fillRect(cell.x, cell.y, grid-1, grid-1);
+    context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
     // snake ate red block
     if (cell.x === apple.x && cell.y === apple.y) {
       snake.maxCells++;
@@ -98,28 +99,18 @@ function loop() {
 
       // snake occupies same space as a body part. reset game
       if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-        snake.x = 160;
-        snake.y = 160;
-        snake.cells = [];
-        snake.maxCells = 4;
-        snake.dx = grid;
-        snake.dy = 0;
-        apple.x = getRandomInt(0, 25) * grid;
-        apple.y = getRandomInt(0, 25) * grid;
-        snakeScore.count = 0;
-        updateScoreSnake();
+        snakeRestart();
       }
     }
   });
 }
 
-function anyKey()
-{
+function anyKey() {
   context.font = '20px Courier New';
   context.fillStyle = 'white';
   context.fillText('Press any key to begin',
-  canvas.width / 2 - 120,
-  canvas.height / 2);
+    canvas.width / 2 - 120,
+    canvas.height / 2);
 }
 
 function updateScoreSnake() {
@@ -128,48 +119,78 @@ function updateScoreSnake() {
 
 function listen() {
   // listen to keyboard events to move the snake
-document.addEventListener('keydown', function(key) {
-  // prevent snake from backtracking on itself by checking that it's
-  // not already moving on the same axis (pressing left while moving
-  // left won't do anything, and pressing right while moving left
-  // shouldn't let you collide with your own body)
+  document.addEventListener('keydown', function (key) {
+    // prevent snake from backtracking on itself by checking that it's
+    // not already moving on the same axis (pressing left while moving
+    // left won't do anything, and pressing right while moving left
+    // shouldn't let you collide with your own body)
 
-  // Handle the 'Press any key to begin' function and start the game.
-  if (snakeRunning === false) {
-    snakeRunning = true;
-    window.requestAnimationFrame(loop);
-  }
+    // Handle the 'Press any key to begin' function and start the game.
+    if (snakeRunning === false) {
+      snakeRunning = true;    
+      window.requestAnimationFrame(loop);
+    }
 
-  // left arrow key
-  if (key.which === 37 && snake.dx === 0) {
-    key.preventDefault();
-    snake.dx = -grid;
-    snake.dy = 0;
-  }
-  // up arrow key
-  else if (key.which === 38 && snake.dy === 0) {
-    key.preventDefault();
-    snake.dy = -grid;
-    snake.dx = 0;
-  }
-  // right arrow key
-  else if (key.which === 39 && snake.dx === 0) {
-    key.preventDefault();
-    snake.dx = grid;
-    snake.dy = 0;
-  }
-  // down arrow key
-  else if (key.which === 40 && snake.dy === 0) {
-    key.preventDefault();
-    snake.dy = grid;
-    snake.dx = 0;
-  }
-});
+    // left arrow key
+    if (key.which === 37 && snake.dx === 0) {
+      key.preventDefault();
+      snake.dx = -grid;
+      snake.dy = 0;
+    }
+    // up arrow key
+    else if (key.which === 38 && snake.dy === 0) {
+      key.preventDefault();
+      snake.dy = -grid;
+      snake.dx = 0;
+    }
+    // right arrow key
+    else if (key.which === 39 && snake.dx === 0) {
+      key.preventDefault();
+      snake.dx = grid;
+      snake.dy = 0;
+    }
+    // down arrow key
+    else if (key.which === 40 && snake.dy === 0) {
+      key.preventDefault();
+      snake.dy = grid;
+      snake.dx = 0;
+    }
+  });
 }
 
-function snakeRestart()
+document.querySelector("#stopSnake").addEventListener("click", function() 
 {
-  window.alert("snake restarted!");
+  name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
+  savePlayer(name, snakeScore);
+  snakeRestart();
+});
+
+function snakeRestart() {
+  snake.x = 160;
+  snake.y = 160;
+  snake.cells = [];
+  snake.maxCells = 4;
+  snake.dx = grid;
+  snake.dy = 0;
+  apple.x = getRandomInt(0, 25) * grid;
+  apple.y = getRandomInt(0, 25) * grid;
+  snakeScore.count = 0;
+  updateScoreSnake();
+}
+
+function savePlayer(name, score) {
+  var data = { "info": name + " " + score };
+
+  fetch('http://localhost:3000/scores', {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+    .then(response => console.log('Success:', JSON.stringify(data)))
+    .catch(error => console.error('Error:', error));
 }
 
 // start the game

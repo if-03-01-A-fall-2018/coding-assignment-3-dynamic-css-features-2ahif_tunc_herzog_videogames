@@ -1,25 +1,9 @@
 {
-  "players": [
-    {
-      "id": 1,
-      "name": "DaTunc"
-    },
-    {
-      "name": "Nathalie",
-      "id": 2
-    }
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" }
   ],
-  "games": [
-    {
-      "id": 1
-    }
+  "comments": [
+    { "id": 1, "body": "some comment", "postId": 1 }
   ],
-  "scores": [
-    {
-      "id": 1,
-      "gameId": 1,
-      "playerId": 1,
-      "points": 100
-    }
-  ]
+  "profile": { "name": "typicode" }
 }

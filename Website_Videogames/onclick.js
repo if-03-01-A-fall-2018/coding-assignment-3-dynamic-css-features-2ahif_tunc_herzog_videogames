@@ -13,19 +13,16 @@ document.querySelector("#defaultOpen").addEventListener("click", function()
 
 document.querySelector("#tetris-button").addEventListener("click", function() 
 {
-    tetrisRestart;
     openGame(event, 'Tetris')
 });
 
 document.querySelector("#snake-button").addEventListener("click", function() 
 {
-    snakeRestart;
     openGame(event, 'Snake')
 });
 
 document.querySelector("#pong-button").addEventListener("click", function() 
 {
-    //pongRestart;
     openGame(event, 'Pong')
 });
 

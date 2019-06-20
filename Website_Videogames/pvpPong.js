@@ -7,6 +7,9 @@ var DIRECTION = {
 	RIGHT: 4
 };
 
+var name1;
+var name2;
+
 var rounds = [5, 5, 3, 3, 2];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6'];
 
@@ -404,6 +407,38 @@ var Game = {
 		window.alert("PVP pong restarted!");
 	}
 };
+
+document.querySelector("#stopPVPPong").addEventListener("click", function () {
+	name1 = prompt("Your score will now be listed in the Scoreboard. Player 1, enter your name!");
+	name2 = prompt("Player 2, enter your name!");
+
+	name1 = name1 + " " + pvpScore.countOne + " " + name2;
+	savePlayer(name1, pvpScore.countTwo);
+	pvpPongRestart();
+});
+
+function pvpPongRestart() {
+	this.color = "#222233";
+	pvpScore.countOne = 0;
+	pvpScore.countTwo = 0;
+	this.pvpPaddle.speed = 10;
+	this.pvpBall.speed = 9;
+}
+
+function savePlayer(name, score) {
+	var data = { "info": name + " " + score };
+
+	fetch('http://localhost:3000/scores', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		}
+	}).then(res => res.json())
+		.then(response => console.log('Success:', JSON.stringify(data)))
+		.catch(error => console.error('Error:', error));
+}
 
 var PvPPong = Object.assign({}, Game);
 PvPPong.updateScorePvP(1);

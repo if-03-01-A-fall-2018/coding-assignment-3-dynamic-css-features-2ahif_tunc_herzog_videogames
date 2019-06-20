@@ -12,16 +12,16 @@
 
 <body>
 	<nav>
-			<ul>
-				<li><a href="Main.html" class="nav">videogames</a></li>
-				<li><a href="Main.html">Main</a></li>
-				<li><a href="Genres.html">Genres</a></li>
-				<li><a href="Consoles.html">Consoles</a></li>
-				<li><a href="VR.html">Virtual Reality</a></li>
-				<li><a href="Launcher.html">Launcher</a></li>
-				<li><a href="Games.html">Games</a></li>
-				<li><a href="changelog.html">Log</a></li>
-			</ul>
+		<ul>
+			<li><a href="Main.html" class="nav">videogames</a></li>
+			<li><a href="Main.html">Main</a></li>
+			<li><a href="Genres.html">Genres</a></li>
+			<li><a href="Consoles.html">Consoles</a></li>
+			<li><a href="VR.html">Virtual Reality</a></li>
+			<li><a href="Launcher.html">Launcher</a></li>
+			<li><a href="Games.html">Games</a></li>
+			<li><a href="changelog.html">Log</a></li>
+		</ul>
 	</nav>
 
 	<div class="sidebar">
@@ -35,82 +35,74 @@
 		<div id="HighScores" class="tabcontent">
 			<h2>High Scores</h2>
 			<table class="scoreboard">
-				<th>Tetris</th>
-				<th>Snake</th>
-				<th>Pong</th>
-				<tr>
-					<td>player 1</td>
-					<td>player 2</td>
-					<td>player 3</td>
-				</tr>
-				<tr>
-					<td>player 1</td>
-					<td>player 2</td>
-					<td>player 3</td>
-				</tr>
-				<tr>
-					<td>player 1</td>
-					<td>player 2</td>
-					<td>player 3</td>
-				</tr>
+				<thead>
+					<th>Tetris</th>
+					<th>Snake</th>
+					<th>Pong</th>
+				</thead>
+				<tbody class="table-hover" id="players">
 			</table>
 		</div>
 
-		<div id="Tetris" class="tabcontent">
-			<h2>Tetris</h2>
-			<p>You control the bricks falling down. Fit them in a row to get points.</p>
-			<p>Use the arrow buttons.</p>
+			<div id="Tetris" class="tabcontent">
+				<h2>Tetris</h2>
+				<p>You control the bricks falling down. Fit them in a row to get points.</p>
+				<p>Use the arrow buttons.</p>
 
-			<div id="tetrisScore"></div>
-			<canvas id="playground" width="240" height="400"></canvas>
-			<script type="text/javascript" src="tetris.js"></script>
-		</div>
-
-
-		<div id="Snake" class="tabcontent">
-			<h2>Snake</h2>
-			<p>
-				Use the arrow keys to move a "snake" around the board.
-				The snake "eats" the red blocks and thereby grows larger.
-				The game ends when the snake moves into itself.
-			</p>
-			<p> The goal is to make the snake as large as possible before that happens.</p>
-
-			<input type="button" id="restart" value="restart" style="font: normal 30px monospace; color: white; background-color:blue;"></input>
-			<div id="snakeScore"></div>
-			<canvas id="game" width="400" height="400"></canvas>
-			<script type="text/javascript" src="snake.js"></script>
-		</div>
-
-
-		<div id="Pong" class="tabcontent">
-			<h2>Pong</h2>
-			<p>You have to steer the left rectangle (ping) to win against the A.I. (pong).</p>
-			<p>
-				Use the up/down arrows or w/s. Winner is who gets the most points by shooting
-				the ball into the enemy's field.
-			</p>
-
-			<button class="mode" id="PVP-button">PvP</button>
-			<button class="mode" id="AI-button">A.I.</button>
-
-			<script type="text/javascript" src="playstyleChooser.js"></script>
-
-			<div id="AI">
-				<p> You are now playing against an A.I.! </p>
-				<div id="pongScore"></div>
-				<canvas id="pongcanvas"></canvas>
-				<script type="text/javascript" src="pong.js"></script>
+				<button class="stopANDrestart" id="stopTetris">Stop & Restart</button>
+				<div id="tetrisScore"></div>
+				<canvas id="playground" width="240" height="400"></canvas>
+				<script type="text/javascript" src="tetris.js"></script>
 			</div>
-			
-			<div id="PVP">
-				<p> You are now playing in PvP (competitive) mode! </p>
-				<div id="pvpPongScore1"></div>
-				<div id="pvpPongScore2"></div>
-				<canvas id="pvpcanvas"></canvas>
-				<script type="text/javascript" src="pvpPong.js"></script>
+
+
+			<div id="Snake" class="tabcontent">
+				<h2>Snake</h2>
+				<p>
+					Use the arrow keys to move a "snake" around the board.
+					The snake "eats" the red blocks and thereby grows larger.
+					The game ends when the snake moves into itself.
+				</p>
+				<p> The goal is to make the snake as large as possible before that happens.</p>
+
+				<button class="stopANDrestart" id="stopSnake">Stop & Restart</button>
+				<div id="snakeScore"></div>
+				<canvas id="game" width="400" height="400"></canvas>
+				
+				<script type="text/javascript" src="snake.js"></script>
 			</div>
-		</div>
+
+
+			<div id="Pong" class="tabcontent">
+				<h2>Pong</h2>
+				<p>You have to steer the left rectangle (ping) to win against the A.I. (pong).</p>
+				<p>
+					Use the up/down arrows or w/s. Winner is who gets the most points by shooting
+					the ball into the enemy's field.
+				</p>
+
+				<button class="mode" id="PVP-button">PvP</button>
+				<button class="mode" id="AI-button">A.I.</button>
+
+				<script type="text/javascript" src="playstyleChooser.js"></script>
+
+				<div id="AI">
+					<p> You are now playing against an A.I.! </p>	
+					<button class="stopANDrestart" id="stopPong">Stop & Restart</button>				
+					<div id="pongScore"></div>				
+					<canvas id="pongcanvas"></canvas>
+					<script type="text/javascript" src="pong.js"></script>
+				</div>
+
+				<div id="PVP">
+					<p> You are now playing in PvP (competitive) mode! </p>
+					<button class="stopANDrestart" id="stopPVPPong">Stop & Restart</button>
+					<div id="pvpPongScore1"></div>
+					<div id="pvpPongScore2"></div>
+					<canvas id="pvpcanvas"></canvas>
+					<script type="text/javascript" src="pvpPong.js"></script>
+				</div>
+			</div>
 	</div>
 
 	<script type="text/javascript" src="onclick.js"></script>

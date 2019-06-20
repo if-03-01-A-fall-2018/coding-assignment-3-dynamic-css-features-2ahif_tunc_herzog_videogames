@@ -7,7 +7,6 @@ var DIRECTION = {
 	RIGHT: 4
 };
 
-var rounds = [5, 5, 3, 3, 2];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6'];
 
 var score = {
@@ -286,7 +285,7 @@ var Game = {
 		return ((new Date()).getTime() - this.timer >= 1000);
 	},
 
-	pongRestart: function()	{
+	pongRestart: function () {
 		window.alert("AI pong restarted!");
 	},
 
@@ -296,38 +295,61 @@ var Game = {
 		max = 1;
 
 		min = Math.ceil(min);
-    	max = Math.floor(max);
+		max = Math.floor(max);
 		nextTurn = Math.floor(Math.random() * (max - min + 1)) + min;
-		
+
 		this.ball = Ball.new.call(this, this.ball.speed);
 		this.timer = (new Date()).getTime();
 
-		if(nextTurn == 1)
-		{
+		if (nextTurn == 1) {
 			this.turn = this.player;
 		}
-		else if(nextTurn === 0)
-		{
+		else if (nextTurn === 0) {
 			this.turn = this.paddle;
 		}
 
-		if(paddlePoint)
-		{
+		if (paddlePoint) {
 			score.count -= 2;
 
-			if(score.count < 0)
-			{
+			if (score.count < 0) {
 				score.count = 0;
 			}
 		}
-		else
-		{
+		else {
 			score.count++;
 		}
 
 		Pong.updateScorePong();
-	}	
+	}
 };
+
+document.querySelector("#stopPong").addEventListener("click", function () {
+	name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
+	savePlayer(name, score.count);
+	pongRestart();
+});
+
+function pongRestart() {
+	this.color = "#222233";
+	score.count = 0;
+	this.Paddle.speed = 10;
+	this.Ball.speed = 9;
+}
+
+function savePlayer(name, score) {
+	var data = { "info": name + " " + score };
+
+	fetch('http://localhost:3000/scores', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		}
+	}).then(res => res.json())
+		.then(response => console.log('Success:', JSON.stringify(data)))
+		.catch(error => console.error('Error:', error));
+}
 
 var Pong = Object.assign({}, Game);
 Pong.updateScorePong();
