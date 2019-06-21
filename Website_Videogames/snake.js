@@ -127,7 +127,7 @@ function listen() {
 
     // Handle the 'Press any key to begin' function and start the game.
     if (snakeRunning === false) {
-      snakeRunning = true;    
+      snakeRunning = true;
       window.requestAnimationFrame(loop);
     }
 
@@ -158,10 +158,21 @@ function listen() {
   });
 }
 
-document.querySelector("#stopSnake").addEventListener("click", function() 
-{
+document.querySelector("#stopSnake").addEventListener("click", function () {
   name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
+
+  if (name == null) {
+    return;
+  }
+
+  do {
+    if (name == " " || !name) {
+      name = prompt("Hmm.. that doesn't really look like a name. Try again!");
+    }
+  } while (name == " " || !name)
+
   savePlayer(name, snakeScore.count, "snake");
+
   snakeRestart();
 });
 

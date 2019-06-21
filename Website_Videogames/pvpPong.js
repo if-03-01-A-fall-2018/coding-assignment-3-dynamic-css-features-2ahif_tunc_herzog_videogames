@@ -7,8 +7,7 @@ var DIRECTION = {
 	RIGHT: 4
 };
 
-var name1;
-var name2;
+var name;
 
 var rounds = [5, 5, 3, 3, 2];
 var colors = ['#1abc9c', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6'];
@@ -330,35 +329,35 @@ var Game = {
 
 	listen: function () {
 		document.addEventListener('keydown', function (key) {
-				// Handle the 'Press any key to begin' function and start the game.
-				if (PvPPong.pvpRunning === false) {
-					PvPPong.pvpRunning = true;
-					window.requestAnimationFrame(PvPPong.loop);
-				}
+			// Handle the 'Press any key to begin' function and start the game.
+			if (PvPPong.pvpRunning === false) {
+				PvPPong.pvpRunning = true;
+				window.requestAnimationFrame(PvPPong.loop);
+			}
 
-				// Handle w key events for player1
-				if (key.keyCode === 87) {
-					key.preventDefault();
-					PvPPong.player1.move = DIRECTION.UP;
-				}
+			// Handle w key events for player1
+			if (key.keyCode === 87) {
+				key.preventDefault();
+				PvPPong.player1.move = DIRECTION.UP;
+			}
 
-				// Handle s key events for player1
-				if (key.keyCode === 83) {
-					key.preventDefault();
-					PvPPong.player1.move = DIRECTION.DOWN;
-				}
+			// Handle s key events for player1
+			if (key.keyCode === 83) {
+				key.preventDefault();
+				PvPPong.player1.move = DIRECTION.DOWN;
+			}
 
-				// Handle up arrow key events for player2
-				if (key.keyCode === 38) {
-					key.preventDefault();
-					PvPPong.player2.move = DIRECTION.UP;
-				}
+			// Handle up arrow key events for player2
+			if (key.keyCode === 38) {
+				key.preventDefault();
+				PvPPong.player2.move = DIRECTION.UP;
+			}
 
-				// Handle down arrow key events for player2
-				if (key.keyCode === 40) {
-					key.preventDefault();
-					PvPPong.player2.move = DIRECTION.DOWN;
-				}
+			// Handle down arrow key events for player2
+			if (key.keyCode === 40) {
+				key.preventDefault();
+				PvPPong.player2.move = DIRECTION.DOWN;
+			}
 		});
 
 		// Stop the player1 and player2 from moving when there are no keys being pressed.
@@ -403,17 +402,38 @@ var Game = {
 		return ((new Date()).getTime() - this.timer >= 1000);
 	},
 
-	pvpRestart: function()	{
+	pvpRestart: function () {
 		window.alert("PVP pong restarted!");
 	}
 };
 
-document.querySelector("#stopPVPPong").addEventListener("click", function () {
-	name1 = prompt("Your score will now be listed in the Scoreboard. Player 1, enter your name!");
-	name2 = prompt("Player 2, enter your name!");
+function invalidName(name) {
+	if (name == null) {
+		return;
+	}
 
-	name1 = name1 + " " + pvpScore.countOne + " " + name2;
-	savePlayer(name1, pvpScore.countTwo, "pvpPong");
+	do {
+		if (name == " " || !name) {
+			name = prompt("Hmm.. that doesn't really look like a name. Try again!");
+		}
+	} while (name == " " || !name)
+}
+
+document.querySelector("#stopPVPPong").addEventListener("click", function () {
+	if (pvpScore.countTwo > pvpScore.countOne) {
+		name = prompt("Player2 Won! Your score will now be listed in the Scoreboard. Winner, please enter your name!");
+		invalidName(name);
+		savePlayer(name, pvpScore.countTwo, "pong");
+	}
+	else if (pvpScore.countOne > pvpScore.countTwo) {
+		name = prompt("Player1 Won! Your score will now be listed in the Scoreboard. Winner, please enter your name!");
+		invalidName(name);
+		savePlayer(name, pvpScore.countOne, "pong");
+	}
+	else {
+		alert("It's a draw! To keep everything fair and from overflowing, none of you will be added to the Scoreboard.");
+	}
+
 	pvpPongRestart();
 });
 

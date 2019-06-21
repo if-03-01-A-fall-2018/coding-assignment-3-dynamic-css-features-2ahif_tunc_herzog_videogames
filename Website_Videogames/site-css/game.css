@@ -89,3 +89,7 @@ canvas#game {
   background-color: #666;
   transform: translateY(4px);
 }
+
+#warning {
+  font-size: 10px;
+}

@@ -325,7 +325,19 @@ var Game = {
 
 document.querySelector("#stopPong").addEventListener("click", function () {
 	name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
+
+	if (name == null) {
+		return;
+	}
+
+	do {
+		if (name == " " || !name) {
+			name = prompt("Hmm.. that doesn't really look like a name. Try again!");
+		}
+	} while (name == " " || !name)
+
 	savePlayer(name, score.count, "pong");
+
 	pongRestart();
 });
 

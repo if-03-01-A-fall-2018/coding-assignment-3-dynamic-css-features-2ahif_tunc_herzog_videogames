@@ -112,9 +112,9 @@ function rotate(matrix, dir) {
                 matrix[x][y],
                 matrix[y][x],
             ] = [
-                matrix[y][x],
-                matrix[x][y],
-            ];
+                    matrix[y][x],
+                    matrix[x][y],
+                ];
         }
     }
 
@@ -204,11 +204,11 @@ function anyKey() {
     cntxt.font = '20px Courier New';
     cntxt.fillStyle = 'white';
     cntxt.fillText('Press any key',
-    playground.width - 200,
-    playground.height / 2);
+        playground.width - 200,
+        playground.height / 2);
     cntxt.fillText('to begin',
-    playground.width - 170,
-    playground.height - 170);
+        playground.width - 170,
+        playground.height - 170);
 
     cntxt.scale(20, 20);
 }
@@ -259,11 +259,22 @@ const player = {
     text: "SCORE: "
 };
 
-document.querySelector("#stopTetris").addEventListener("click", function() 
-{
-  name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
-  savePlayer(name, player.score, "tetris");
-  tetrisRestart();
+document.querySelector("#stopTetris").addEventListener("click", function () {
+    name = prompt("Your score will now be listed in the Scoreboard. Enter your name!");
+
+    if (name == null) {
+        return;
+    }
+
+    do {
+        if (name == " " || !name) {
+            name = prompt("Hmm.. that doesn't really look like a name. Try again!");
+        }
+    } while (name == " " || !name)
+
+    savePlayer(name, player.score, "tetris");
+
+    tetrisRestart();
 });
 
 function tetrisRestart() {
