@@ -10,6 +10,7 @@ body {
   text-align: center;
 }
 
+
 article
 {
   margin-top: 5%;
@@ -25,6 +26,11 @@ article#main
   top:100%;
 }
 
+textarea{
+  color:  #AACCFF;
+  background-color: #141420;
+}
+
 .bg-image{
     width: 100%;
     height: 100%;
@@ -37,11 +43,26 @@ article#main
     right: 0;
     bottom: 0;
     margin: auto;
+
 }
 
 a {
-    color: #AACCFF;
+    color: #084B8A;
     text-decoration: none;
+}
+
+.detailed{
+  margin-left: 0;
+  padding-right: 2.5%;
+  width: 1600px;
+  height: 850px;
+}
+
+.detailed.fl{
+  margin-left: 0;
+  padding-right: 2.5%;
+  width: 1000px;
+  height: 850px;
 }
 
 .link {
@@ -125,7 +146,8 @@ h1 {
 }
 
 h2 {
-  font-weight: bold;
+  padding-top: 80px;
+    font-weight: bold;
   color: rgb(209, 227, 253);
   font-size: 50px;
   position: relative;
@@ -139,7 +161,7 @@ h2::after {
   position: absolute;
   background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
   left:0px;
-  content:" ";    
+  content:" ";
   width:100%;
 }
 
@@ -190,28 +212,9 @@ form > button#steam {
 
 button#steam:hover {background-color: #000;}
 
-a > button {
-  width: 10%;
-  height: 400px;
-  width: 300px;
-  position: absolute;
-  background-size: cover;
-  background-position: center;
-  text-align: center;
-  border-radius: 12px;
-  font-size: 25px;
-  font-weight: bold;
-  color: black;
-  text-shadow: 2px 2px lightgray;
-}
 
-button.tetris {
-   background: url('images/tetris.png') no-repeat;
-}
 
-button.pacman {
-   background: url('images/pacman.jpg') no-repeat;
-}
+
 
 section#pacman {
   padding-top: 500px;

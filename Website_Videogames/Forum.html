@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Games</title>
+  <link rel="stylesheet" href="css-main.css">
+  <script type="text/javascript" src="db.json"></script>
+  <link rel="stylesheet" href="css-main.css">
+	<link rel="stylesheet" href="site-css/navigation.css">
+</head>
+
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet">
+
+<body>
+    <article>
+      <div>
+        <ul>
+          <li><a href="Main.html" class="nav">videogames</a></li>
+          <li><a href="Main.html">Main</a></li>
+          <li><a href="Genres.html">Genres</a></li>
+          <li><a href="Consoles.html">Consoles</a></li>
+          <li><a href="VR.html">Virtual Reality</a></li>
+          <li><a href="Launcher.html">Launcher</a></li>
+          <li><a href="Games.html">Games</a></li>
+          <li><a href="Forum.html">Forum</a></li>
+          <li><a href="changelog.html">Log</a></li>
+        </ul>
+      </div>
+</article>
+
+<div style="margin-top: 61px">
+
+<div class="sidebar bar-block" style="width:130px">
+  <h5 style="font-size:25px">Options</h5>
+  <button class="bar-item button tablink" onclick="openGame(event, 'Reviews')">Reviews</button>
+  <button class="bar-item button tablink" onclick="openGame(event, 'Tuts')">Tutorials</button>
+
+</div>
+
+<div style="margin-left:130px">
+
+  <div id="Reviews" class="container game" style="display:none">
+    <button class="bar-item button tablink" onclick="openGame(event, 'addReview')">add review</button>
+    <h2>Reviews</h2>
+
+    <hr>
+    <p style="text-align: center"> Here you will be able to review games and hear the opinion of other players </p>
+    <p style="text-align: center"> and you can also rate the game if you already played it. </p>
+
+    <script>
+    GetReview();
+    </script>
+
+
+  </div>
+
+
+
+  <div id="Tuts" class="container game" style="display:none">
+    <h2>Tutorials</h2>
+    <hr>
+    <p style="text-align: center"> You are good at a game and also a good teacher ?</p>
+    <p style="text-align: center"> So why don't you become a tutor and show new players how to play and how you find special loot !</p>
+  </div>
+
+
+
+  <div id="addReview" class="container game" style="display:none">
+
+
+    <button class="bar-item button tablink" onclick="openGame(event, 'Reviews')">Cancel</button>
+    <h2>Adding a Review</h2>
+
+    <hr>
+
+
+        <form action="/action_page.php">
+            <p style="margin-left:160px "> Game</p>
+
+            <textarea name="message" style="width:800px; height:20px;float: left; margin-left: 165px;">
+            </textarea>
+
+        </form>
+
+        <br>
+
+        <form action="/action_page.php">
+            <p style="margin-left:160px "> Review</p>
+            <textarea name="message" style="width:800px; height:200px;float: left; margin-left: 165px;">
+            </textarea>
+        </from>
+
+
+  </div>
+</div>
+
+    <script>
+    function openGame(evt, gameName) {
+    var i, x, tablinks;
+    x = document.getElementsByClassName("game");
+    for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < x.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace();
+    }
+    document.getElementById(gameName).style.display = "block";
+    }
+
+  </script>
+
+  <script>
+
+    function saveReview(game,rating,review){
+          var data ={"game" : gameName,"rating" : gameRating, "review" : gameReview};
+
+          fetch('http://localhost:3000/reviews',{
+            method:'POST',
+            body:JSON.stringify(data),
+            headers:{
+              'ACCEPT':'application/json',
+              'Content-Type':'application/json'
+            }
+          }).then/(res=>res.json())
+          .then(response => console.log('Sucess:',JSON.stringify(data)))
+          .catch(error=>console.error('Error:',error));
+
+    }
+
+
+
+    function GetReview(){
+          var myInit = {method: 'GET',
+                        headers:{'Accept': 'application/json','Content-Type':'application/json'},
+                        cache:'default';
+                        }
+          var myRequest = new Request('http://localhost:3000/reviews',myInit);
+
+          fetch('http://localhost:3000/reviews')
+          .then(response=>{
+            return response.json();
+          })
+          .then(data=>{
+            WriteHtml(data);
+          })
+    }
+
+    function WriteHtml(data){
+      var p = document.getElementById("reviews");
+
+      for (var i = 0; i < data.length; i++) {
+        p.innerHTML+='<h2>'+ data[i].game+'</h2>'
+      }
+    }
+
+    </script>
+
+    </div>
+  </body>
+</html>
