@@ -146,6 +146,7 @@
             return response.json();
           })
           .then(data=>{
+
             WriteHtml(data);
           })
     }
@@ -154,8 +155,9 @@
       var p = document.getElementById("reviews");
 
       for (var i = 0; i < data.length; i++) {
-        p.innerHTML+='<h2>'+ data[i].game+'</h2>'
+        p.innerHTML+='<h2>'+ data[i].game+'</h2>';
       }
+
     }
 
     </script>
