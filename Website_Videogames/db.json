@@ -42,5 +42,35 @@
       "score": 0,
       "id": 7
     }
-  ]
-}
+  ],
+
+
+    "tutorials": [
+      {
+        "id": 1,
+        "game": "World of Warcraft",
+        "topic": "How to find a clan",
+        "tut": ""
+      },
+      {
+        "id": 2,
+        "game": "League of Legends",
+        "topic": "Playing Top-Lane",
+        "tut": ""
+      }
+    ],
+    "reviews": [
+      {
+        "id": 1,
+        "game": "Furi",
+        "rating": "+",
+        "review": "Great game!"
+      },
+      {
+        "id": 2,
+        "game": "FIFA 19",
+        "rating": "-",
+        "review": "It sucks"
+      }
+    ]
+  }
