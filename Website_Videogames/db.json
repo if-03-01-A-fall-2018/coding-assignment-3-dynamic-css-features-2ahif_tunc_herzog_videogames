@@ -8,41 +8,13 @@
     },
     {
       "game": "tetris",
-      "name": "null",
-      "score": 0,
+      "name": "Hube",
+      "score": 100,
       "id": 2
-    },
-    {
-      "game": "tetris",
-      "name": "null",
-      "score": 0,
-      "id": 3
-    },
-    {
-      "game": "tetris",
-      "name": "null",
-      "score": 0,
-      "id": 4
-    },
-    {
-      "game": "tetris",
-      "name": "null",
-      "score": 0,
-      "id": 5
-    },
-    {
-      "game": "tetris",
-      "name": "null",
-      "score": 0,
-      "id": 6
-    },
-    {
-      "game": "tetris",
-      "name": "null",
-      "score": 0,
-      "id": 7
-    },
+    }
+
   ],
+
   "tutorials": [
     {
       "id": 1,
